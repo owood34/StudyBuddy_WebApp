@@ -21,6 +21,11 @@ body {
     margin: 20px 10px 0 0;
 }
 
+#searchResults img {
+    display: inline-block;
+    transform: translateY(5px);
+}
+
 input[type="text"] {
     margin: 10px 0 0 10px;
     max-width: 300px;
