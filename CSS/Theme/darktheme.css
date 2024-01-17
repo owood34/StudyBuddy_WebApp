@@ -1,0 +1,11 @@
+body.dark {
+    background-color: hsl(84, 41%, 5%);
+}
+
+body.dark :is(p, h1, h2, h3, h4, label) {
+    color: #DEE2FC !important;
+}
+
+body.dark .sidebar {
+    background-color: 	hsl(230, 25%, 23%) !important;
+}

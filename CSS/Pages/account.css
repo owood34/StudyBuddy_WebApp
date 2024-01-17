@@ -1,0 +1,131 @@
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    background-color: #525B88;
+    text-align: center;
+    overflow-x: hidden;
+    transition: 0.5s;
+    right: 8px;
+}
+
+#hamburger {
+    position: absolute;
+    top: 3em;
+    right: 3em;
+}
+
+button {
+    border: none;
+    font-size: 20px;
+    background-color: transparent;
+    color: #DEE2FC;
+    margin: 30px 0 0 0;
+}
+
+button:hover {
+    scale: 1.1;
+}
+
+.active {
+    text-decoration: underline !important;
+    scale: 1.1 !important;
+}
+
+.main {
+    margin: 0 0 0 100px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 50px 100px;
+    width: 50%;
+    margin: 0 0 0 30px;
+}
+
+.content .form-group {
+    width: 200px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #525B88;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #525B88;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.form-group input[type="file"] {
+    display: none;
+}
+
+.form-group {
+    font-size: 16px;
+    height: 75px;
+}
+
+.form-group img {
+    position: relative;
+    top: 3.5em;
+    left: -6.5em;
+}
+
+.form-group img:hover {
+    cursor: pointer;
+}
+
+.form-group button#save {
+    background-color: green;
+}
+
+.form-group button#cancel {
+    background-color: red;
+}
+
+.form-group input {
+    padding: 5px;
+    margin: 5px 0 0 0;
+}

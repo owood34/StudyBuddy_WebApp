@@ -1,0 +1,22 @@
+div {
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    width: fit-content;
+    box-shadow: 0 -2px 5px green;
+    margin: 0 0 20px 30px;
+}
+
+.session {
+    box-shadow: 0 -2px 5px red;
+}
+
+div * {
+    padding: 0 30px 0 0;
+}
+
+div p {
+    position: relative;
+    top: 10px;
+    font-style: italic;
+}

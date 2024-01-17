@@ -1,0 +1,35 @@
+.screen {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.blurry {
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+.screen div {
+    width: 100%;
+    padding: 10px;
+}
+
+h3 {
+    text-align: center;
+    color: #525B88;
+    border-bottom: 3px solid #DEE2FC;
+}
+
+.message {
+    position: absolute;
+    background-color: white;
+    box-shadow: 5px 5px 5px lightgray;
+    top: 32%;
+    right: 25%;
+    width: 50%;
+    text-align: center;
+}
+
+.message h2 {
+    color: #525B88;
+}

@@ -1,0 +1,10 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 40% 30% 30%;
+    border: 2px solid #DEE2FC;
+    height: 100px;
+    box-shadow: 5px 5px 5px lightgray;
+    margin: 0 0 20px 0;
+    padding: 10px;
+}
