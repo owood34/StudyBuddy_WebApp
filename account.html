@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="./CSS/Theme/darktheme.css">
         <script src="./JS/Elements/NavigationBar.js"></script>
         <script src="./JS/Elements/CustomFriend.js"></script>
+        <script src="./JS/commands.js"></script>
     </head>
     <body>
         <navigation-bar notification-amount="3" id="nav"></navigation-bar>
@@ -15,6 +16,7 @@
         <div class="sidebar">
             <button id="appearance_button" class="active"> Appearance </button>
             <button id="friendList_button"> Friends List </button>
+            <button id="shortcuts_button"> Shortcuts </button>
         </div>
         <div class="main">
             <div class="tab" id="appearance">
@@ -73,6 +75,15 @@
                 <friend-list name="Eric Mcgregor" inSession="session"></friend-list>
                 <friend-list name="Test 2" inSession="session"></friend-list>
                 <friend-list></friend-list>
+            </div>
+            <div class="tab" id="shortcuts">
+                <h1> Shortcuts </h1>
+                <div class="content">
+                    <div class="form-group">
+                        <h4> Create A Group: </h4> 
+                        <p> Shift + G </p>
+                    </div>
+                </div>
             </div>
         </div>
         <script src="./JS/Pages/account.js"></script>

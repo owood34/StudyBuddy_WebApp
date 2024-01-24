@@ -31,12 +31,17 @@ input[type="text"] {
     max-width: 300px;
 }
 
+#insert:hover {
+    scale: 1.1;
+}
+
 #insert:hover + .tooltip {
     visibility: visible;
 }
 
 #insert {
     margin: 10px;
+    cursor: pointer;
 }
 
 .blurry {
@@ -96,7 +101,8 @@ h2, h4 {
     grid-row: 4;
 }
 
-.studyGroupPopup .controls #join {
+.studyGroupPopup .controls #join,
+.createStudyGroupPopup .form-group .create {
     background-color: green;
     border: none;
     color:hsl(84, 41%, 90%);
@@ -104,7 +110,8 @@ h2, h4 {
     cursor: pointer;
 }
 
-.studyGroupPopup .controls #cancel {
+.studyGroupPopup .controls #cancel,
+.createStudyGroupPopup .form-group .close {
     background-color: red;
     border: none;
     color:hsl(84, 41%, 90%);
@@ -112,6 +119,56 @@ h2, h4 {
     cursor: pointer;
 }
 
-.studyGroupPopup .controls *:hover {
+.studyGroupPopup .controls *:hover,
+.createStudyGroupPopup .form-group button:hover {
     scale: 1.1;
+}
+
+.studyGroupPopup img.close:hover {
+    scale: 1.1;
+}
+
+.createStudyGroupPopup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 20%;
+    right: 10%;
+    background-color: hsl(84, 41%, 97%);
+    box-shadow: 5px 5px 5px lightgray;
+    width: 80%;
+    height: 80%;
+}
+
+.createStudyGroupPopup h2 {
+    text-align: center;
+}
+
+.createStudyGroupPopup img.close {
+    position: absolute;
+    top: 10px;
+    right: 2%;
+    cursor: pointer;
+}
+
+.form-group {
+    margin: 10px;
+    padding: 10px 0 0 0;
+}
+
+.form-group input[type="text"] {
+    width: 250px;
+    height: 20px;
+    background-color: 	hsl(230, 25%, 90%);
+    border: 0;
+    border-bottom: 2px hsl(84, 41%, 30%) solid;
+    border-right: 1px hsl(84, 41%, 30%) solid;
+}
+
+.form-group .checkBoxRequired {
+    visibility: hidden;
+}
+
+.form-group input[type="checkbox"]:checked ~ .checkBoxRequired {
+    visibility: visible;
 }

@@ -12,9 +12,11 @@ themeToggle.addEventListener('click', () => changeTheme());
 document.getElementById("hamburger").addEventListener('click', () => activateMenu());
 
 function changeTabs(id) {
-    tabButtons.forEach(x => x.classList.toggle("active"));
+    tabButtons.forEach(x => x.id === id ? x.classList.add("active") : x.classList.remove("active"));
     tabs.forEach(x => x.style.display = "none");
-    tabs[id === "friendList_button" ? 1 : 0].style.display = "block";
+    tabs[id === "friendList_button" ? 1 : 
+            id === "shortcuts_button" ? 2 
+                : 0].style.display = "block";
 }
 
 function activateMenu() {
