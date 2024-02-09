@@ -1,6 +1,6 @@
 const isTesting = false;
 const url = isTesting ? "http://localhost:3000" : 
-    "studdybuddy-api-server.azurewebsites.net";
+    "http://studdybuddy-api-server.azurewebsites.net/";
 
 const header = "user";
 
@@ -19,7 +19,9 @@ async function createUser(user) {
 
     console.log(options.body);
     const response = await fetch(`${url}/${header}`, options);
+    console.log(response);
     const body = await response.json();
+    console.log(body);
 
     return body;
 }
