@@ -1,6 +1,6 @@
 import { Notification } from "./Models";
 
-const isTesting = true;
+const isTesting = false;
 const url = isTesting ? "http://localhost:3000/" : 
     "studdybuddy-api-server.azurewebsites.net";
 
