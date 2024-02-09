@@ -23,7 +23,7 @@ class NavigationBar extends HTMLElement {
             <div class="wrapper" id=${isDarkMode}>
                 <a href="./index.html"><h3> Home </h3></a>
                 <a href="./studypage.html"><h3> Find Study Group? </h3></a>
-                <a href="./account.html"> <img src=./Images/default_user.png /></a>
+                <a href="./login.html"> <img src=./Images/default_user.png /></a>
                 <div class="bell">
                     <a href="./messages.html"> <img src=./Images/notification_bell.png /></a>
                     <span style="visibility: ${isVisible}"> ${notificationAmount} </span>
