@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#content {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Study Buddy </title>
+        <link rel="stylesheet" href="./CSS/Pages/login.css">
+        <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
+    </head>
+    <body>
+        <div class="tabs">
+            <button class="tab active" id="login"> Login </button>
+            <button class="tab" id="create"> Create </button>
+            <div class="content active" id="login">
+                <h1> Login </h1>
+                <div class="form">
+                    <label for="email"> Email </label>
+                    <input type="email" id="email" name="email"/>
+                    <label for="password"> Password </label>
+                    <input type="password" id="password" name="password" />
+                    <button id="signin"> Signin </button> 
+                    <p id="forgot"> Forgot your password </p>
+                </div>
+            </div>
+            <div class="content" id="create">
+                <h1> Create Account </h1>
+                <div class="form">
+                    <label for="fname"> Name </label>
+                    <div class="name">
+                        <input id="fname" name="fname" placeholder="First Name" />
+                        <input id="lname" name="lname" placeholder="Last Name" />
+                    </div>
+                    <label for="email"> Email </label>
+                    <input type="email" id="email" name="email"/>
+                    <label for="school"> School </label>
+                    <input type="school" id="school" name="school"/>
+                    <label for="password"> Password </label>
+                    <input type="password" id="password" name="password" />
+                    <label for="password"> Retype Password </label>
+                    <input type="password" id="rpassword" name="rpassword" />
+                    <button id="signup"> Signup </button>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="./JS/Pages/login.js"></script>
+    </body>
+</html>

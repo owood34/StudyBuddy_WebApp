@@ -5,6 +5,7 @@ body {
 .content {
     display: flex;
     flex-direction: row;
+    margin-bottom: 100px;
 }
 
 #searchResults {
@@ -137,7 +138,7 @@ h2, h4 {
     background-color: hsl(84, 41%, 97%);
     box-shadow: 5px 5px 5px lightgray;
     width: 80%;
-    height: 80%;
+    height: 55%;
 }
 
 .createStudyGroupPopup h2 {
@@ -171,4 +172,10 @@ h2, h4 {
 
 .form-group input[type="checkbox"]:checked ~ .checkBoxRequired {
     visibility: visible;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 20vh;
 }

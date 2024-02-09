@@ -2,8 +2,8 @@
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
-    background-color: #525B88;
+    z-index: 0;
+    background-color: hsl(230, 25%, 63%);
     text-align: center;
     overflow-x: hidden;
     transition: 0.5s;
@@ -128,4 +128,10 @@ input:checked + .slider:before {
 .form-group input {
     padding: 5px;
     margin: 5px 0 0 0;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 20vh;
 }

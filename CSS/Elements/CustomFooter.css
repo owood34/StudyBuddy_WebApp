@@ -1,0 +1,9 @@
+div {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    height: 20vh;
+    width: 99vw;
+    background-color: #525B88;
+    margin-top: 100px;
+}

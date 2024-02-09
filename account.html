@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
         <link rel="stylesheet" href="./CSS/Theme/darktheme.css">
         <script src="./JS/Elements/NavigationBar.js"></script>
-        <script src="./JS/Elements/CustomFriend.js"></script>
+        <script src="./JS/Elements/CustomExpandedFriend.js"></script>
+        <script src="./JS/Elements/CustomFooter.js"></script>
         <script src="./JS/commands.js"></script>
     </head>
     <body>
@@ -71,10 +72,10 @@
             </div>
             <div class="tab" id="friendList">
                 <h1> Friends List </h1>
-                <friend-list name="Owen Wood"></friend-list>
-                <friend-list name="Eric Mcgregor" inSession="session"></friend-list>
-                <friend-list name="Test 2" inSession="session"></friend-list>
-                <friend-list></friend-list>
+                <expanded-friend name="Owen Wood"></expanded-friend>
+                <expanded-friend name="Eric Mcgregor" inSession="session"></expanded-friend>
+                <expanded-friend name="Test 2" inSession="session"></expanded-friend>
+                <expanded-friend></expanded-friend>
             </div>
             <div class="tab" id="shortcuts">
                 <h1> Shortcuts </h1>
@@ -86,6 +87,7 @@
                 </div>
             </div>
         </div>
+        <custom-footer></custom-footer>
         <script src="./JS/Pages/account.js"></script>
     </body>
 </html>

@@ -1,0 +1,57 @@
+div:not(#controls) {
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 55vw;
+    box-shadow: 0 -2px 5px green;
+    margin: 0 0 20px 30px;
+}
+
+.session {
+    box-shadow: 0 -2px 5px red !important;
+}
+
+div * {
+    padding: 0 30px 0 0;
+}
+
+div p {
+    position: relative;
+    top: 10px;
+    font-style: italic;
+}
+
+img {
+    width: 42px;
+    height: 42px;
+}
+
+#controls {
+    position: absolute;
+    left: 50vw;
+}
+
+#controls img#send:hover ~ .sendBox {
+    display: block !important;
+}
+
+#controls img#delete:hover ~ .deleteBox {
+    display: block !important;
+}
+
+#controls p {
+    position: absolute;
+    background-color: hsl(84, 41%, 95%);
+    display: none;
+    text-align: center;
+    top: -150%;   
+}
+
+#controls img {
+    padding-left: 10px;
+}
+
+#controls img:hover {
+    scale: 1.1;
+}
+

@@ -40,6 +40,7 @@ class NavigationBar extends HTMLElement {
 
     /**
      * @param {boolean} val
+     * Renders Dark Mode
      */
     set isDarkMode(val) {
         this.render(val);

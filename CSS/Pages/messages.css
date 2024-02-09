@@ -33,3 +33,9 @@ h3 {
 .message h2 {
     color: #525B88;
 }
+
+body::after {
+    content: '';
+    display: block;
+    height: 20vh;
+}

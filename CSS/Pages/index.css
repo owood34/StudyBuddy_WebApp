@@ -1,0 +1,11 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+body::after {
+    content: '';
+    display: block;
+    height: 20vh;
+}
