@@ -1,6 +1,6 @@
 const isTesting = false;
 const url = isTesting ? "http://localhost:3000" : 
-    "http://studdybuddy-api-server.azurewebsites.net/";
+    "http://studdybuddy-api-server.azurewebsites.net";
 
 const header = "user";
 
