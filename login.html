@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
     </head>
     <body>
+        <span id="ErrorMessage"></span>
         <div class="tabs">
             <button class="tab active" id="login"> Login </button>
             <button class="tab" id="create"> Create </button>
@@ -29,14 +30,19 @@
                         <input id="fname" name="fname" placeholder="First Name" />
                         <input id="lname" name="lname" placeholder="Last Name" />
                     </div>
+                    <label for="name" class="error"> Missing Name </label>
                     <label for="email"> Email </label>
                     <input type="email" id="email" name="email"/>
+                    <label for="email" class="error"> Invalid Email </label>
                     <label for="school"> School </label>
                     <input type="school" id="school" name="school"/>
+                    <label for="school" class="error"> Missing Field </label>
                     <label for="password"> Password </label>
                     <input type="password" id="password" name="password" />
+                    <label for="email" class="error"> Missing Field </label>
                     <label for="password"> Retype Password </label>
                     <input type="password" id="rpassword" name="rpassword" />
+                    <label for="email" class="error"> Passwords do not match </label>
                     <button id="signup"> Signup </button>
                 </div>
             </div>

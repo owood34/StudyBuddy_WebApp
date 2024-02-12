@@ -4,6 +4,10 @@ body {
     justify-content: space-between;
 }
 
+.loading {
+    cursor: wait;
+}
+
 .tabs {
     position: absolute;
     left: 40%;
@@ -52,7 +56,7 @@ button:not(button.active) {
     margin: 20px;
 }
 
-label {
+label:not(.error) {
     margin: 0 0 0 20px !important;
 }
 
@@ -79,7 +83,7 @@ label {
 .name {
     display: flex;
     flex-direction: row;
-    width: 14.85vw;
+    width: 250px;
 }
 
 .name * {
@@ -89,4 +93,23 @@ label {
 
 .name *:last-child() {
     margin: 0 0 0 10px !important;
+}
+
+.fieldError {
+    border: 1px solid red;
+}
+
+.error {
+    margin: 0 0 0 20px;
+    transform: translateY(-20px);
+    color: red;
+    font-weight: bold;
+    visibility: hidden;
+}
+
+#ErrorMessage {
+    width: 100%;
+    background-color: rgba(255, 57, 57, 0.5);
+    color: white;
+    visibility: hidden;
 }

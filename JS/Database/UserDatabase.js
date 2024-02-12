@@ -4,6 +4,30 @@ const url = "https://studdybuddy-api-server.azurewebsites.net";
 const header = "user";
 
 /** 
+ * Gets the Current User Logged in
+ * @param { Object } user
+ * @returns { Object } { status code, user / undefined }
+ * */
+async function getActiveUser() {
+    if (localStorage.getItem("token") !== undefined && 
+        localStorage.getItem("token") !== null) {
+        const token = localStorage.getItem("token");
+        const options = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+    
+        const response = await fetch(`${url}/${header}`, options);
+        const body = await response.json();
+    
+        return body;
+    }
+    return undefined;
+}
+
+/** 
  * Creates a User inside the Database.
  * @param { Object } user
  * @returns { Object } { status code, user / undefined }
@@ -16,11 +40,8 @@ async function createUser(user) {
         body: JSON.stringify(user)
     }
 
-    console.log(options.body);
     const response = await fetch(`${url}/${header}`, options);
-    console.log(response);
     const body = await response.json();
-    console.log(body);
 
     return body;
 }
@@ -97,4 +118,4 @@ async function deleteAllUsers() {
 
 
 
-export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification }
+export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser }

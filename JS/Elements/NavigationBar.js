@@ -19,17 +19,21 @@ class NavigationBar extends HTMLElement {
         const isDarkMode = darkMode ? "dark" : "";
         const isVisible = notificationAmount === 0 ? "hidden" : "visible";
 
+        const accountSetting = localStorage.getItem("token") !== undefined ? "./account.html" : "./login.html";
+
         this.shadowRoot.innerHTML = `
             <div class="wrapper" id=${isDarkMode}>
                 <a href="./index.html"><h3> Home </h3></a>
                 <a href="./studypage.html"><h3> Find Study Group? </h3></a>
-                <a href="./login.html"> <img src=./Images/default_user.png /></a>
+                <a href="${accountSetting}"> <img src=./Images/default_user.png /></a>
                 <div class="bell">
                     <a href="./messages.html"> <img src=./Images/notification_bell.png /></a>
                     <span style="visibility: ${isVisible}"> ${notificationAmount} </span>
                 <div>
             </div>
         `;
+
+
 
         this.shadowRoot.appendChild(css);
     }
