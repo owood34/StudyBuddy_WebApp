@@ -1,5 +1,6 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net";
+const url = "http://localhost:3000"
+//"https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "user";
 
@@ -92,6 +93,8 @@ async function logoutUser() {
         localStorage.getItem("token") === null) {
             return { status: 404 }
     }
+
+    console.log(localStorage.getItem("token"));
 
     const options = {
         method: "POST",

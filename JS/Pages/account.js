@@ -40,6 +40,7 @@ function changeTheme() {
 }
 
 async function logout() {
+    console.log("Logging Out");
     const response = await UserDatabase.logoutUser();
     if (response.okay) {
         location.href = "index.html";
