@@ -106,12 +106,8 @@ async function createAccount() {
         password: createForm.password,
         school: createForm.school
     }
-
-    content.forEach(e => e.innerText = "");
-    document.body.classList.add("loading");
-
+    
     const response = await UserDatabase.createUser(user);
-    document.body.classList.remove("loading");
 
     if (JSON.stringify(response) === "{}") {
         document.getElementById("ErrorMessage").style.visibility = "visible";
