@@ -5,7 +5,6 @@ const header = "user";
 
 /** 
  * Gets the Current User Logged in
- * @param { Object } user
  * @returns { Object } { status code, user / undefined }
  * */
 async function getActiveUser() {
@@ -19,7 +18,7 @@ async function getActiveUser() {
             }
         };
     
-        const response = await fetch(`${url}/${header}`, options);
+        const response = await fetch(`${url}/${header}/active`, options);
         const body = await response.json();
     
         return body;
@@ -83,6 +82,29 @@ async function updateUser(user) {
         return body;
 }
 
+/**
+ * Logs Current User Out
+ * @returns { Number } Status Code
+ */
+
+async function logoutUser() {
+    if (localStorage.getItem("token") === undefined || 
+        localStorage.getItem("token") === null) {
+            return { status: 404 }
+    }
+
+    const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(localStorage.getItem("token"))
+    };
+
+    const response = await fetch(`${url}/${header}/logout`, options);
+    const body = await response.json();
+
+    return body;
+}
+
 /** 
  * Deletes a User inside the Database.
  * @param { Object } user
@@ -118,4 +140,4 @@ async function deleteAllUsers() {
 
 
 
-export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser }
+export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser }
