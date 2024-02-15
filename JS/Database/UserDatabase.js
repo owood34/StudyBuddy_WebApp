@@ -1,6 +1,5 @@
 const isTesting = false;
-const url = "http://localhost:3000";
-// https://salmon-wave-0f89c260f.4.azurestaticapps.net/
+const url = "https://salmon-wave-0f89c260f.4.azurestaticapps.net";
 
 const header = "user";
 
