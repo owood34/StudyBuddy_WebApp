@@ -40,9 +40,9 @@ function changeTheme() {
 }
 
 async function logout() {
-    console.log("Logging Out");
     const response = await UserDatabase.logoutUser();
-    if (response.okay) {
+    if (response === 200) {
+        localStorage.clear();
         location.href = "index.html";
     }
 }

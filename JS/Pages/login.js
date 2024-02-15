@@ -22,8 +22,11 @@ function switchTab(id) {
     }
 }
 
-signin.addEventListener('click', async () => login());
-signup.addEventListener('click', async () => createAccount());
+signin.addEventListener('click', async () => await login());
+signup.addEventListener('click', async () => await createAccount());
+
+content[0].querySelector("#email").addEventListener('input', (e) => loginForm.email = e.target.value);
+content[0].querySelector("#password").addEventListener('input', (e) => loginForm.password = e.target.value);
 
 content[1].querySelector("#fname").addEventListener('input', (e) => { 
     createForm.fname = e.target.value;
@@ -57,7 +60,12 @@ async function login() {
             console.log("Invalid Properties");
     }
 
-    // Userdatabase Find User.
+    const response = await UserDatabase.loginUser(loginForm.email, loginForm.password);
+    if (response.okay) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user));
+        location.href = "main.html";
+    }
 }
 
 async function createAccount() {

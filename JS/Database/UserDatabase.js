@@ -1,5 +1,6 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net";
+const url = "http://localhost:3000";
+// https://salmon-wave-0f89c260f.4.azurestaticapps.net/
 
 const header = "user";
 
@@ -83,28 +84,46 @@ async function updateUser(user) {
 }
 
 /**
+ * Tries to login the User with a valid email and password
+ * @param { String } Email - The Users Email
+ * @param { String } Password - The Users Password
+ * @returns { Object } {user, token}
+*/
+async function loginUser(email, password) {
+    const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({"email": email, "password": password})
+    }
+    const response = await fetch(`${url}/${header}/login`, options);
+    const body = await response.json();
+
+    return body;
+}
+
+/**
  * Logs Current User Out
  * @returns { Number } Status Code
  */
-
 async function logoutUser() {
     if (localStorage.getItem("token") === undefined || 
         localStorage.getItem("token") === null) {
-            return { status: 404 }
+            return 404;
     }
 
     console.log(localStorage.getItem("token"));
 
     const options = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(localStorage.getItem("token"))
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
     };
 
-    const response = await fetch(`${url}/${header}/logout`, options);
-    const body = await response.json();
+    console.log(options);
 
-    return body;
+    const response = await fetch(`${url}/${header}/logout`, options);
+    return response.status;
 }
 
 /** 
@@ -142,4 +161,4 @@ async function deleteAllUsers() {
 
 
 
-export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser }
+export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser, loginUser }

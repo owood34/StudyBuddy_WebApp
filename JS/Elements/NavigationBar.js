@@ -19,8 +19,10 @@ class NavigationBar extends HTMLElement {
         const isDarkMode = darkMode ? "dark" : "";
         const isVisible = notificationAmount === 0 ? "hidden" : "visible";
 
-        //const accountSetting = localStorage.getItem("token") !== undefined ? "./account.html" : "./login.html";
-        const accountSetting = "./login.html";
+        console.log(localStorage.getItem("token"));
+
+        const accountSetting = localStorage.getItem("token") !== null ? "./account.html" : "./login.html";
+        //const accountSetting = "./login.html";
         
         this.shadowRoot.innerHTML = `
             <div class="wrapper" id=${isDarkMode}>
