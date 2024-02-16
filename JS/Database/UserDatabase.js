@@ -1,5 +1,5 @@
 const isTesting = false;
-const url = "https://salmon-wave-0f89c260f.4.azurestaticapps.net";
+const url = "https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "user";
 
