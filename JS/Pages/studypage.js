@@ -12,7 +12,7 @@ const formData = {
     maxParticipants: 6,
     school: "",
     courseNum: "",
-    meetings: []
+    meeting_times: []
 }
 
 let currentPage = 0;
@@ -262,7 +262,7 @@ function insertMeeting(cardWrapper) {
         location.innerText = meetingForm.location;
 
         delete meetingForm.time;
-        formData.meetings.push(meetingForm);
+        formData.meeting_times.push(meetingForm);
 
         close("subtab");
     }); 
@@ -277,7 +277,6 @@ async function create() {
     }
 
     const response = await StudyGroupDatabase.createStudyGroup(formData);
-    console.log(response);
     if (response.okay) {
         close("maintab");
         alert("Successfully Created Your Study Group!");

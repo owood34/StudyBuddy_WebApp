@@ -4,7 +4,7 @@ const url = "https://studdybuddy-api-server.azurewebsites.net";
 const header = "studygroup";
 
 /** 
- * Creates a User inside the Database.
+ * Creates a Study Group inside the Database.
  * @param { Object } studygroup
  * @returns { Object } { status code, studygroup / undefined }
  * */ 
@@ -31,5 +31,21 @@ async function createStudyGroup(studygroup) {
     return body;
 }
 
-export { createStudyGroup }
+/** 
+ * Gets all Study Groups inside the Database.
+ * @returns { Array } { studygroups[] }
+ * */ 
+
+async function getAllStudyGroups() {
+    const options = { method: "GET" }
+
+    const response = await fetch(`${url}/${header}/all`, options);
+    const body = await response.json();
+
+    return body;
+}
+
+
+
+export { createStudyGroup, getAllStudyGroups }
 
