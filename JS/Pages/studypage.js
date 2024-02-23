@@ -277,6 +277,7 @@ async function create() {
     }
 
     const response = await StudyGroupDatabase.createStudyGroup(formData);
+    console.log(response);
     if (response.okay) {
         close("maintab");
         alert("Successfully Created Your Study Group!");
