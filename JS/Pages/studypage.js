@@ -10,7 +10,7 @@ const formData = {
     description: "",
     isPublic: true,
     maxParticipants: 6,
-    school: "",
+    school: "Bridgewater College",
     courseNum: "",
     meeting_times: []
 }
