@@ -18,7 +18,7 @@ body {
 input {
     width: 250px;
     height: 20px;
-    background-color: 	hsl(230, 25%, 90%);
+    background-color: hsl(230, 25%, 90%);
     border: 0;
     border-bottom: 2px hsl(84, 41%, 30%) solid;
     border-right: 1px hsl(84, 41%, 30%) solid;
@@ -34,10 +34,10 @@ button {
 }
 
 button.active {
-    background-color: hsl(84, 41%, 70%) !important
+    background-color: hsl(84, 41%, 96%) !important
 }
 button:not(button.active) {
-    background-color: hsl(84, 41%, 96%)
+    background-color: hsl(84, 41%, 70%)
 }
 
 .content.active {
@@ -50,6 +50,10 @@ button:not(button.active) {
     box-shadow: 2px 2px 10px gray;
     background-color: hsl(84, 41%, 95%);
     width: 400px;
+}
+
+.content:not(.content.active) * {
+    visibility: hidden !important;
 }
 
 .content * {
@@ -107,9 +111,19 @@ label:not(.error) {
     visibility: hidden;
 }
 
-#ErrorMessage {
-    width: 100%;
-    background-color: rgba(255, 57, 57, 0.5);
-    color: white;
-    visibility: hidden;
+#message {
+    width: 97.8%;
+    height: 20px;
+    text-align: center;
+    padding: 20px;
+    color: hsl(84, 41%, 96%);
+    visibility: visible;
+}
+
+#message.bad {
+    background-color: rgba(255, 57, 57, 0.8);
+}
+
+#message.good {
+    background-color: rgba(33, 180, 13, 0.8);
 }

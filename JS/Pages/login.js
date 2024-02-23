@@ -1,4 +1,5 @@
 import * as UserDatabase from '../Database/UserDatabase.js';
+import {HTTPStatusCodes} from '../Database/HTTPStatusCodes.js';
 
 const tabs = [...document.getElementsByClassName("tab")];
 const content = [...document.getElementsByClassName("content")];
@@ -115,11 +116,16 @@ async function createAccount() {
         school: createForm.school
     }
     
-    const response = await UserDatabase.createUser(user);
+    const message = document.getElementById("message");
 
-    if (JSON.stringify(response) === "{}") {
-        document.getElementById("ErrorMessage").style.visibility = "visible";
+    const response = await UserDatabase.createUser(user);
+    console.log(response);
+
+    if (response.okay) {
+        message.classList.add("good");
+        message.innerText = "A Verification Email has been sent";
     } else {
-        document.getElementById("ErrorMessage").style.visibility = "hidden";
-    }
+        message.classList.add("bad");
+        message.innerText = "An Error occurred when sending the verification email";
+    }   
 }

@@ -27,7 +27,7 @@ body {
     transform: translateY(5px);
 }
 
-input[type="text"] {
+input[type="text"]#search {
     margin: 10px 0 0 10px;
     max-width: 300px;
 }
@@ -102,8 +102,7 @@ h2, h4 {
     grid-row: 4;
 }
 
-.studyGroupPopup .controls #join,
-.createStudyGroupPopup .form-group .create {
+.studyGroupPopup .controls #join {
     background-color: green;
     border: none;
     color:hsl(84, 41%, 90%);
@@ -111,8 +110,7 @@ h2, h4 {
     cursor: pointer;
 }
 
-.studyGroupPopup .controls #cancel,
-.createStudyGroupPopup .form-group .close {
+.studyGroupPopup .controls #cancel {
     background-color: red;
     border: none;
     color:hsl(84, 41%, 90%);
@@ -121,57 +119,178 @@ h2, h4 {
 }
 
 .studyGroupPopup .controls *:hover,
-.createStudyGroupPopup .form-group button:hover {
+.studyGroupPopup img.close:hover,
+.createStudyGroupPopup .close:hover,
+.smallPopup .close:hover,
+:is(.createStudyGroupPopup, .smallPopup) .controls *:hover,
+.createStudyGroupPopup .times #insertMeeting:hover,
+.smallPopup .form select:hover {
     scale: 1.1;
 }
 
-.studyGroupPopup img.close:hover {
-    scale: 1.1;
-}
-
-.createStudyGroupPopup {
+.createStudyGroupPopup { 
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    top: 20%;
-    right: 10%;
-    background-color: hsl(84, 41%, 97%);
-    box-shadow: 5px 5px 5px lightgray;
+    background-color:hsl(84, 41%, 90%);
+    top: 10%;
+    left: 10%;
     width: 80%;
-    height: 55%;
+    height: 60%;
+    box-shadow: 2px 2px 10px gray;
 }
 
 .createStudyGroupPopup h2 {
     text-align: center;
 }
 
-.createStudyGroupPopup img.close {
-    position: absolute;
-    top: 10px;
-    right: 2%;
+.createStudyGroupPopup .close {
     cursor: pointer;
+    position: relative;
+    top: 5%;
+    left: 95%;
 }
 
-.form-group {
-    margin: 10px;
-    padding: 10px 0 0 0;
+.createStudyGroupPopup .form {
+    text-indent: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.form-group input[type="text"] {
+:is(.createStudyGroupPopup, .smallPopup) .form input[type="text"],
+.createStudyGroupPopup #changeSchool {
     width: 250px;
     height: 20px;
-    background-color: 	hsl(230, 25%, 90%);
+    background-color: hsl(230, 25%, 90%);
     border: 0;
     border-bottom: 2px hsl(84, 41%, 30%) solid;
     border-right: 1px hsl(84, 41%, 30%) solid;
 }
 
-.form-group .checkBoxRequired {
+.createStudyGroupPopup .page {
+    position: absolute;
+    padding: 20px;
+    margin: 30px;
+    width: 80%;
+    height: 70%;
+    left: 10%;
+}
+
+.checkBoxRequired {
     visibility: hidden;
 }
 
-.form-group input[type="checkbox"]:checked ~ .checkBoxRequired {
+.createStudyGroupPopup .group input[type="checkbox"]:not(:checked) + .checkBoxRequired {
     visibility: visible;
+}
+
+.createStudyGroupPopup .page {
+    z-index: 5;
+}
+
+.createStudyGroupPopup .page:not(.active) {
+    visibility: hidden;
+    z-index: -1 !important;
+}
+
+.createStudyGroupPopup .controls {
+    position: absolute;
+    top: 12.5%;
+    left: 43.5%;
+}
+
+.createStudyGroupPopup .controls :is(#previous, #next) {
+    background-color: #525B88;
+    border: 0;
+}
+
+:is(.createStudyGroupPopup, .smallPopup) .controls * {
+    cursor: pointer;
+    font-size: 20px;
+    color: #DEE2FC;
+}
+
+:is(.createStudyGroupPopup, .smallPopup) .controls .create {
+    background-color: rgba(33, 180, 13, 0.8);
+    border: 0;
+}
+
+:is(.createStudyGroupPopup, .smallPopup) .controls .cancel {
+    background-color: rgba(255, 57, 57, 0.8);
+    border: 0;
+}
+
+.createStudyGroupPopup .times #title {
+    text-indent: 30px;
+}
+
+.createStudyGroupPopup .times #insertMeeting {
+    position: absolute;
+    width: 25px;
+    aspect-ratio: 1 / 1;
+    top: 18.5%;
+    left: 18%;
+    cursor: pointer;
+}
+
+.createStudyGroupPopup .cards {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    max-height: 420px;
+    overflow-y: scroll;
+}
+
+.createStudyGroupPopup .cards .card {
+    background-color:hsl(84, 41%, 94%);
+    border: 1px transparent solid;
+    border-radius: 25px;
+    width: 200px;
+    text-align: center;
+}
+
+.smallPopup { 
+    position: absolute;
+    z-index: 10;
+    background-color:hsl(84, 41%, 94%);
+    top: 25%;
+    left: 50%;
+    width: 30%;
+    height: 20%;
+    box-shadow: 2px 2px 10px gray;
+    padding: 10px;
+}
+
+.smallPopup .form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.smallPopup .form select {
+    background-color: hsl(84, 41%, 94%);
+    width: 50px;
+    font-size: large;
+    border: none;
+    appearance: none;
+    outline: none;
+    scroll-behavior: smooth;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: hsl(84, 41%, 38%);
+}
+
+.smallPopup .form select:is(#hour, #month) {
+    text-align: right;
+}
+
+.smallPopup .close {
+    cursor: pointer;
+    position: relative;
+    top: 2%;
+    left: 92%;
 }
 
 body::after {
