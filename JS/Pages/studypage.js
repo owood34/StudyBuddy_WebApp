@@ -271,7 +271,7 @@ function insertMeeting(cardWrapper) {
 async function create() {
     if (formData.name.length === 0 ||
         formData.description.length === 0 ||
-        formData.meetings.length === 0) {
+        formData.meeting_times.length === 0) {
             console.log("Invalid Properties");
             return;
     }
