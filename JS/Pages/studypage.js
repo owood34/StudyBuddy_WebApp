@@ -245,8 +245,7 @@ function insertMeeting(cardWrapper) {
                 return;
         }
         
-        meetingForm.day = `${today.getFullYear()}-${defaultForm.month + 1}-${defaultForm.day}T${defaultForm.hour}:${defaultForm.min}:00+00:00`;
-        meetingForm.time = `${defaultForm.hour}:${defaultForm.min}`;
+        meetingForm.date = `${today.getFullYear()}-${defaultForm.month}-${defaultForm.day}T${defaultForm.hour}:${defaultForm.min}:00+00:00`;
         meetingForm.location = defaultForm.location;
 
         const card = cardWrapper.appendChild(document.createElement("div"));
