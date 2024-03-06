@@ -24,7 +24,10 @@ body {
 
 #searchResults img {
     display: inline-block;
-    transform: translateY(5px);
+    position: absolute;
+    top: 2%;
+    right: 20%;
+    cursor: pointer;
 }
 
 input[type="text"]#search {
@@ -43,6 +46,19 @@ input[type="text"]#search {
 #insert {
     margin: 10px;
     cursor: pointer;
+}
+
+select {
+    background-color: transparent;
+    width: fit-content;
+    font-size: large;
+    border: none;
+    appearance: none;
+    outline: none;
+    scroll-behavior: smooth;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: hsl(84, 41%, 38%);
 }
 
 .blurry {
@@ -73,11 +89,36 @@ input[type="text"]#search {
 
 #studyGroupResults {
     display: inline-block;
+    position: relative;
     width: 75vw;
     height: 80vh;
     box-shadow: 2px 2px 10px gray;
     margin: 20px 0 0 0;
-    overflow-y: scroll;
+}
+
+#studyGroupResults #controls {
+    position: absolute;
+    right: 50%;
+    top: 2.5%;
+}
+
+#studyGroupResults #controls * {
+    font-size: large;
+    background-color: #525B88;
+    border: 0;
+    color:hsl(84, 41%, 94%);
+    cursor: pointer;
+}
+
+.parameters {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    text-indent: 30px;
+}
+
+.parameters * {
+    width: fit-content;
 }
 
 h2, h4 {
@@ -124,7 +165,9 @@ h2, h4 {
 .smallPopup .close:hover,
 :is(.createStudyGroupPopup, .smallPopup) .controls *:hover,
 .createStudyGroupPopup .times #insertMeeting:hover,
-.smallPopup .form select:hover {
+.smallPopup .form select:hover,
+#studyGroupResults #controls *:hover,
+#searchResults img:hover {
     scale: 1.1;
 }
 
@@ -157,9 +200,8 @@ h2, h4 {
     gap: 30px;
 }
 
-:is(.createStudyGroupPopup, .smallPopup) .form input[type="text"],
-.createStudyGroupPopup #changeSchool {
-    width: 250px;
+input[type="text"] {
+    width: 10vw;
     height: 20px;
     background-color: hsl(230, 25%, 90%);
     border: 0;
@@ -180,7 +222,8 @@ h2, h4 {
     visibility: hidden;
 }
 
-.createStudyGroupPopup .group input[type="checkbox"]:not(:checked) + .checkBoxRequired {
+.createStudyGroupPopup .group input[type="checkbox"]:not(:checked) + .checkBoxRequired,
+.smallPopup .group input[type="checkbox"]:checked + .checkBoxRequired {
     visibility: visible;
 }
 
@@ -220,8 +263,26 @@ h2, h4 {
     border: 0;
 }
 
-.createStudyGroupPopup .times #title {
-    text-indent: 30px;
+.createStudyGroupPopup .times #title,
+.createStudyGroupPopup .dates {
+    text-indent: 10px;
+}
+
+.createStudyGroupPopup .dates p {
+    text-indent: 0;
+}
+
+.createStudyGroupPopup :is(.startDate, .endDate) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: baseline;
+    gap: 10px;
+}
+
+.createStudyGroupPopup :is(.startDate, .endDate) * {
+    margin: 0;
+    width: fit-content;
 }
 
 .createStudyGroupPopup .times #insertMeeting {
@@ -233,6 +294,7 @@ h2, h4 {
     cursor: pointer;
 }
 
+
 .createStudyGroupPopup .cards {
     display: flex;
     flex-wrap: wrap;
@@ -240,6 +302,7 @@ h2, h4 {
     gap: 10px;
     max-height: 420px;
     overflow-y: scroll;
+    margin-top: 30px;
 }
 
 .createStudyGroupPopup .cards .card {
@@ -262,24 +325,30 @@ h2, h4 {
     padding: 10px;
 }
 
+.smallPopup #weekDay {
+    width: fit-content;
+}
+
+.smallPopup .day_group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.smallPopup #timeIdentifier {
+    position: absolute;
+    width: fit-content;
+    bottom: 48%;
+    right: 32%;
+}
+
 .smallPopup .form {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 30px;
-}
-
-.smallPopup .form select {
-    background-color: hsl(84, 41%, 94%);
-    width: 50px;
-    font-size: large;
-    border: none;
-    appearance: none;
-    outline: none;
-    scroll-behavior: smooth;
-    cursor: pointer;
-    text-decoration: underline;
-    text-decoration-color: hsl(84, 41%, 38%);
 }
 
 .smallPopup .form select:is(#hour, #month) {

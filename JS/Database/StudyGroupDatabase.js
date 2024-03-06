@@ -23,7 +23,7 @@ async function createStudyGroup(studygroup) {
             "Content-Type": "application/json" 
         },
         body: JSON.stringify(studygroup)
-    }
+    };
 
     const response = await fetch(`${url}/${header}`, options);
     const body = await response.json();
@@ -37,7 +37,7 @@ async function createStudyGroup(studygroup) {
  * */ 
 
 async function getAllStudyGroups() {
-    const options = { method: "GET" }
+    const options = { method: "GET" };
 
     const response = await fetch(`${url}/${header}/all`, options);
     const body = await response.json();
@@ -45,7 +45,42 @@ async function getAllStudyGroups() {
     return body;
 }
 
+/**
+ * Gets all Groups that the filter tells it to get.
+ * @param {Object} filter
+ * @returns {Array} Study Group Array
+ */
+
+async function getStudyGroups(filter) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const options = {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const queryString = `
+        ?ongoing=${filter.ongoing}&
+        school=${filter.school}&
+        text=${filter.text}&
+        limit=${filter.limit}&
+        skip=${filter.skip}&
+        sortBy:${filter.sortBy}`;
+
+    const response = await fetch(`${url}/${header}s?${queryString}`, options);
+    const body = await response.json();
+
+    return body;
+}
 
 
-export { createStudyGroup, getAllStudyGroups }
+
+export { createStudyGroup, getAllStudyGroups, getStudyGroups }
 

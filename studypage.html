@@ -15,16 +15,32 @@
         <div class="content">
             <div id="searchResults">
                 <h2> Search Results </h2>
-                <input type="text" placeholder="What are you looking for?" id="search" contenteditable>
-                <img src="./Images/search.png" width="20px" height="20px">
-                <h4> Common Search Results </h4>
-                <button class="common"> Avaliable </button>
-                <button class="common"> Bridgewater College </button>
-                <button class="common"> Friend Hosting </button>
+                <img src="./Images/search.png" width="20px" height="20px" id="search">
+                <div class="parameters">
+                    <div class="group">
+                        <label for="keyword"> Keyword: </label>
+                        <input type="text" id="keyword" name="keyword">
+                    </div>
+                    <div class="group">
+                        <label for="school"> School: </label>
+                        <input type="text" id="school" name="school">
+                    </div>
+                    <div class="group">
+                        <label for="ongoing"> Is it ongoing? : </label>
+                        <input type="checkbox" id="ongoing" name="ongoing">
+                    </div>
+                    <div class="group">
+                        <label for="sortBy"> Sort By: </label>
+                        <select id="sortBy">
+                            <option value="asc" selected> Ascending </option>
+                            <option value="desc"> Descending </option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div id="studyGroupResults">
                 <img src="./Images/add_button.png" id="insert"/>
-                <p class="tooltip"> Create A Study Group </p>
+                <p class="tooltip"> Create A Study Group </p> <!-- 4 per page -->
                 <study-group title="Hello Problems" 
                     members="2" 
                     maxMembers="5" 
@@ -39,27 +55,27 @@
                     classNum="PSCI-220E" 
                     location="FLC 227" 
                     owner=""></study-group>
-                <study-group></study-group>
                 <study-group title="Intro to Political Philosophy Tutoring" 
                     members="5" 
                     maxMembers="5" 
                     className="Intro to Political Philosophy" 
                     classNum="PSCI-220E" 
                     location="FLC 227" 
-                    owner=""></study-group>
-                    <study-group title="Intro to Political Philosophy Tutoring" 
+                    owner="">
+                </study-group>
+                <study-group title="Intro to Political Philosophy Tutoring" 
                     members="5" 
                     maxMembers="5" 
                     className="Intro to Political Philosophy" 
                     classNum="PSCI-220E" 
                     location="FLC 227" 
-                    owner=""></study-group>
-                <study-group></study-group>
-                <study-group></study-group>
-                <study-group></study-group>
-                <study-group></study-group>
-                <study-group></study-group>
-            </div>  
+                    owner="">
+                </study-group>
+                <div id="controls">
+                    <button class="previous"> < </button>
+                    <button class="next"> > </button>
+                </div>
+            </div> 
         </div>
         <script type="module" src="./JS/Pages/studypage.js"></script>
         <custom-footer></custom-footer>

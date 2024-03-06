@@ -1,10 +1,21 @@
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 import { HTTPStatusCodes } from '../Database/HTTPStatusCodes.js';
 
-const commonResults = [...document.body.getElementsByClassName("common")];
-const searchbar = document.getElementById("search");
+const search = document.getElementById("search");
 const urlParams = new URLSearchParams(window.location.search);
 const didCommand = decodeURIComponent(urlParams.get("createGroup"));
+
+// Page can hold 4 Groups.
+
+const searchData = {
+    text: "",
+    ongoing: true,
+    school: "",
+    sortBy: "",
+    limit: 4,
+    skip: 0
+}
+
 const formData = {
     name: "",
     description: "",
@@ -12,27 +23,19 @@ const formData = {
     maxParticipants: 6,
     school: "Bridgewater College",
     courseNum: "",
-    meeting_times: []
+    meeting_times: [],
+    start_date: new Date(),
+    end_date: new Date()
 }
 
 let currentPage = 0;
 
-document.getElementById("insert").addEventListener('click', () => createGroup());
+document.getElementById("search").addEventListener('click', async () => await searchGroups());
 
-commonResults.forEach(x => x.addEventListener('click', () => addCommonResult(x.innerText)));
-searchbar.addEventListener('input', () => resize());
+document.getElementById("insert").addEventListener('click', () => createGroup());
 
 if (didCommand === "true") {
     createGroup();
-}
-
-function resize() {
-    searchbar.style.width = `${searchbar.scrollWidth}px`;
-}
-
-function addCommonResult(text) {
-    searchbar.value += `${text},`;
-    searchbar.style.width = `${searchbar.scrollWidth}px`;
 }
 
 function createGroup() {
@@ -50,23 +53,22 @@ function createGroup() {
                     <input type="text" placeholder="Name" id="name">
                 </div>
                 <div class="group">
-                    <label for="description"> Do you have a description for this Study Group? </label>
+                    <label for="description"> What is the description for your Study Group? </label>
                     <input type="text" id="description">
                 </div>
                 <div class="group">
-                    <label for="courseNum"> Does this relate to a course? </label>
+                    <label for="courseNum"> What is the course number for your Study Group? </label>
                     <input type="text" id="courseNum">
                 </div>
                 <div class="group">
                     <label for="maxParticipants"> How many people are allowed to be in the Study Group? </label>
                     <select name="maxParticipants" id="maxParticipants">
-                        <option value="6">  </option>
                         <option value="1"> 1 </option>
                         <option value="2"> 2 </option>
                         <option value="3"> 3 </option>
                         <option value="4"> 4 </option>
                         <option value="5"> 5 </option>
-                        <option value="6"> 6 </option>
+                        <option value="6" selected> 6 </option>
                         <option value="7"> 7 </option>
                         <option value="8"> 8 </option>
                     </select>
@@ -81,8 +83,8 @@ function createGroup() {
                     <div class="checkBoxRequired">
                         <label for="school"> What school does this take place at? </label>
                         <input type="input" id="changeSchool" name="changeSchool">
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
         <div class="page">
@@ -90,6 +92,19 @@ function createGroup() {
             <div class="times">
                 <p id="title"> Insert Meeting Time </p> 
                 <img src="./Images/add_button.png" id="insertMeeting"/>
+                <div class="dates">
+                    <div class="startDate"> Start Date:
+                        <p id="startDay"> </p>
+                        <select id="startMonth"></select>
+                        <p>,</p>
+                        <select id="startDate"></select>
+                    </div>
+                    <div class="endDate"> End Date:
+                        <p id="endDay"> </p>
+                        <select id="endMonth"></select>,
+                        <select id="endDate"></select>
+                    </div>
+                </div>
                 <div class="cards"></div> 
             </div>
         </div>
@@ -100,6 +115,52 @@ function createGroup() {
             <button id="next"> > </button>
         </div>
     `;
+
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const start = {
+        day: createGroupWrapper.querySelector("#startDay"),
+        month: createGroupWrapper.querySelector("#startMonth"),
+        date: createGroupWrapper.querySelector("#startDate")
+    };
+
+    const end = {
+        day: createGroupWrapper.querySelector("#endDay"),
+        month: createGroupWrapper.querySelector("#endMonth"),
+        date: createGroupWrapper.querySelector("#endDate")
+    };
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+    start.day.innerText = daysOfWeek[today.getDay()];
+    end.day.innerText = daysOfWeek[tomorrow.getDay()];
+
+    for (let i = 0; i < months.length; i++) {
+        const startMonth = start.month.appendChild(document.createElement('option'));
+        startMonth.innerText = months[i];
+        startMonth.selected = i === today.getMonth();
+        startMonth.value = i;
+
+        const endMonth = end.month.appendChild(document.createElement('option'));
+        endMonth.innerText = months[i];
+        endMonth.selected = i === tomorrow.getMonth();
+        endMonth.value = i;
+    }
+
+    for (let i = 1; i < 31; i++) {
+        const startDay = start.date.appendChild(document.createElement('option'));
+        startDay.innerText = i;
+        startDay.selected = i === today.getDate();
+        startDay.value = i;
+
+        const endDay = end.date.appendChild(document.createElement('option'));
+        endDay.innerText = i;
+        endDay.selected = i === tomorrow.getDate();
+        endDay.value = i;
+    }
 
     const pages = [...createGroupWrapper.getElementsByClassName("page")];
     const cardWrapper = createGroupWrapper.querySelector(".cards");
@@ -115,6 +176,26 @@ function createGroup() {
     createGroupWrapper.querySelector("#maxParticipants").addEventListener('change', (e) => formData.maxParticipants = e.target.value);
     createGroupWrapper.querySelector("#courseNum").addEventListener('input', (e) => formData.courseNum = e.target.value);
     createGroupWrapper.querySelector("#school").addEventListener('input', (e) => formData.school = e.target.value);
+
+    start.month.addEventListener('change', (e) => { 
+        formData.start_date.setMonth(e.target.value);
+        start.day.innerText = daysOfWeek[formData.start_date.getDay()]; 
+    });
+    end.month.addEventListener('change', (e) => { 
+        formData.end_date.setMonth(e.target.value);
+        end.day.innerText = daysOfWeek[formData.end_date.getDay()];
+    });
+
+    start.date.addEventListener('change', (e) => { 
+        formData.start_date.setDate(e.target.value);
+        console.log(formData.start_date);
+        start.day.innerText = daysOfWeek[formData.start_date.getDay()]; 
+    });
+    end.date.addEventListener('change', (e) => {
+        formData.end_date.setDate(e.target.value);
+        console.log(formData.end_date);
+        end.day.innerText = daysOfWeek[formData.end_date.getDay()];
+    });
 
     createGroupWrapper.querySelector(".create").addEventListener('click', async () => await create());
 }
@@ -135,15 +216,15 @@ function insertMeeting(cardWrapper) {
     meetingTimesWrapper.innerHTML = `
         <img src="./Images/close_button.png" class="close" />
         <div class="form">
-            <div clas="group">
+            <div class="day_group">
                 <label for="date"> What day is your Study Group? </label>
-                <select id="month"></select>,
-                <select id="day"></select>
+                <select id="weekDay"></select>
             </div>
             <div class="group"> What time is your Study Group? </label>
                 <label for="time"> </label>
                 <select id="hour"></select> :
-                <select id="minute"></select> 
+                <select id="minute"></select>
+                <p id="timeIdentifier"> AM </p> 
             </div>
             <div class="group">
                 <label for="location"> What location is your Study Group? </label>
@@ -158,16 +239,21 @@ function insertMeeting(cardWrapper) {
     const today = new Date();
     const minute = meetingTimesWrapper.querySelector("#minute");
     const hours = meetingTimesWrapper.querySelector("#hour");
-    const month = meetingTimesWrapper.querySelector("#month");
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    const day = meetingTimesWrapper.querySelector("#day");
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const weekDay = meetingTimesWrapper.querySelector("#weekDay");
+
+    for (let i = 0; i < daysOfWeek.length; i++) {
+        const day = weekDay.appendChild(document.createElement('option'));
+        day.innerText = daysOfWeek[i];
+        console.log(i, i === today.getDay());
+        day.selected = i === today.getDay();
+    }
 
     const defaultForm = {
-        month: "",
-        day: "",
+        day: daysOfWeek[today.getDay()],
         hour: "",
         min: "",
-        location: ""
+        location: "",
     }
     const meetingForm = {
         day: "",
@@ -177,33 +263,13 @@ function insertMeeting(cardWrapper) {
     
     meetingTimesWrapper.querySelector(".close").addEventListener('click', () => close("subtab"));
     meetingTimesWrapper.querySelector(".controls").querySelector(".cancel").addEventListener('click', () => close("subtab"));
-    meetingTimesWrapper.querySelector("#month").addEventListener('change', (e) => defaultForm.month = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
-    meetingTimesWrapper.querySelector("#day").addEventListener('change', (e) => defaultForm.day = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
-    meetingTimesWrapper.querySelector("#hour").addEventListener('change', (e) => defaultForm.hour = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
     meetingTimesWrapper.querySelector("#minute").addEventListener('change', (e) => defaultForm.minute = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
+    meetingTimesWrapper.querySelector("#weekDay").addEventListener('input', (e) => defaultForm.day = e.target.value);
     meetingTimesWrapper.querySelector("#location").addEventListener('input', (e) => defaultForm.location = e.target.value);
-
-    for (let i = 1; i < 13; i++) {
-        const mon = month.appendChild(document.createElement("option"));
-        mon.innerText = months[i - 1];
-        mon.value = i;
-        if (i === today.getMonth() + 1) {
-            mon.selected = true;
-            defaultForm.month = i < 10 ? `0${i}` : i;
-        }
-        
-    }
-
-    for (let i = 1; i <= 31; i++) {
-        const d = day.appendChild(document.createElement("option"));
-        d.innerText = i;
-        d.value = i;
-        if (i === today.getDate()) {
-            d.selected = true;
-            defaultForm.day = i < 10 ? `0${i}` : i;
-        }
-
-    }
+    meetingTimesWrapper.querySelector("#hour").addEventListener('change', (e) => { 
+        defaultForm.hour = e.target.value < 10 ? `0${e.target.value}` : e.target.value;
+        meetingTimesWrapper.querySelector("#timeIdentifier").innerText = e.target.value < 12 ? "AM" : "PM";
+    });
 
     for (let i = 0; i < 24; i++) {
         const hour = hours.appendChild(document.createElement("option"));
@@ -220,9 +286,9 @@ function insertMeeting(cardWrapper) {
         elm: undefined
     };
 
-    for (let i = 5; i < 65; i+=5) {
+    for (let i = 0; i < 60; i+=5) {
         const min = minute.appendChild(document.createElement("option"));
-        min.innerText = i === 5 ? `0${i}` : i === 60 ? `00` : `${i}`;
+        min.innerText = i <= 5 ? `0${i}` : `${i}`;
         min.value = i;
         if (i - today.getMinutes() <= 5 && i - today.getMinutes() >= 0) {
             if (i - today.getMinutes() < closest.num) {
@@ -233,13 +299,13 @@ function insertMeeting(cardWrapper) {
         }
     }
 
-    closest.elm.selected = true;
+    if (closest.elm) {
+        closest.elm.selected = true;
+    }
 
     meetingTimesWrapper.querySelector(".create").addEventListener('click', () => {
-        if (defaultForm.day.length === 0 ||
-            defaultForm.hour.length === 0 ||
+        if (defaultForm.hour.length === 0 ||
             defaultForm.min.length === 0 ||
-            defaultForm.month.length === 0 ||
             defaultForm.location.length === 0) {
                 console.log("Invalid Properties");
                 return;
@@ -252,13 +318,15 @@ function insertMeeting(cardWrapper) {
         card.classList.add("card");
 
         const date = card.appendChild(document.createElement("h4"));
-        date.innerText = `${months[+(defaultForm.month) - 1]}, ${defaultForm.day}`;
+        date.innerText = defaultForm.day;
 
         const time = card.appendChild(document.createElement("p"));
-        time.innerText = `${defaultForm.hour > 12 ? defaultForm.hour - 12 : defaultForm.hour}:${defaultForm.min} ${defaultForm.hour > 12 ? "PM" : "AM"}`; 
+        time.innerText = `${+(defaultForm.hour) > 12 ? +(defaultForm.hour) - 12 : +(defaultForm.hour)}:${defaultForm.min} ${+(defaultForm.hour) > 12 ? "PM" : "AM"}`; 
 
         const location = card.appendChild(document.createElement("p"));
         location.innerText = meetingForm.location;
+
+        console.log(meetingForm);
 
         delete meetingForm.time;
         formData.meeting_times.push(meetingForm);
@@ -279,7 +347,14 @@ async function create() {
     if (response.okay) {
         close("maintab");
         alert("Successfully Created Your Study Group!");
+        return;
     }
+    alert("There was an erorr making your Study Group!");
+}
+
+async function searchGroups() {
+    const response = await StudyGroupDatabase.getStudyGroups(searchData);
+    console.log(response);
 }
 
 function close(str) {
