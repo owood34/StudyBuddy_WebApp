@@ -1,5 +1,6 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net";
+const url = "http://localhost:3000"
+// "https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "studygroup";
 
@@ -66,7 +67,7 @@ async function getStudyGroups(filter) {
         }
     };
 
-    const queryString = `?ongoing=${filter.ongoing}&school=${filter.school}&text=${filter.text}&limit=${filter.limit}&skip=${filter.skip}&sortBy:${filter.sortBy}`;
+    const queryString = `?ongoing=${filter.ongoing}&school=${filter.school}&search=${filter.text}&limit=${filter.limit}&skip=${filter.skip}&sortBy:${filter.sortBy}`;
 
     const response = await fetch(`${url}/${header}s${queryString}`, options);
     const body = await response.json();

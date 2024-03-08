@@ -18,7 +18,7 @@ body {
     overflow: auto;
     resize: horizontal;
     box-shadow: 2px 2px 10px gray;
-    background-color: hsl(84, 41%, 38%);
+    background-color: hsl(84, 41%, 50%);
     margin: 20px 10px 0 0;
 }
 

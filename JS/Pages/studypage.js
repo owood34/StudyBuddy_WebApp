@@ -12,8 +12,8 @@ const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fri
 const searchData = {
     text: "",
     ongoing: false,
-    school: "",
-    sortBy: "",
+    school: "Bridgewater_College",
+    sortBy: "asc",
     limit: 4,
     skip: 0
 }
@@ -374,9 +374,15 @@ async function create() {
 }
 
 async function searchGroups() {
-    console.log(searchData);
+
     const response = await StudyGroupDatabase.getStudyGroups(searchData);
-    console.log(response);
+    for (let i = 0; i < response.length; i++) {
+        const element = document.getElementById("studyGroupResults").appendChild(document.createElement("study-group"));
+        element.setAttribute('title', response[i].name);
+        element.setAttribute('maxMembers', response[i].max_participants);
+        element.setAttribute('location', response[i].meeting_times[0].location);
+        console.log(element);
+    }
 }
 
 function getStartDate(i) {
