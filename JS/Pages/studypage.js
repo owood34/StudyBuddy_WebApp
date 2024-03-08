@@ -382,8 +382,9 @@ async function searchGroups() {
     delete searchData.sort;
     const response = await StudyGroupDatabase.getStudyGroups(searchData);
     searchData.sort = {};
+    document.getElementById("studyGroups").innerHTML = '';
     for (let i = 0; i < response.length; i++) {
-        const element = document.getElementById("studyGroupResults").appendChild(document.createElement("study-group"));
+        const element = document.getElementById("studyGroups").appendChild(document.createElement("study-group"));
         element.setAttribute('title', response[i].name);
         element.setAttribute("maxMembers", response[i].max_participants);
         element.setAttribute('location', response[i].meeting_times[0].location);
