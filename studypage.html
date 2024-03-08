@@ -31,7 +31,13 @@
                     </div>
                     <div class="group">
                         <label for="sortBy"> Sort By: </label>
-                        <select id="sortBy">
+                        <select id="sortProperty" style="text-align: center;">
+                            <option value="name" selected> Name </option>
+                            <option value="description"> Description </option>
+                            <option value="school"> School </option>
+                            <option value="course_number"> Course Number </option>
+                        </select>:
+                        <select id="sortPropertyOrder">
                             <option value="asc" selected> Ascending </option>
                             <option value="desc"> Descending </option>
                         </select>

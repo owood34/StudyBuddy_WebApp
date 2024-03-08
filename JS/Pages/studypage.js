@@ -13,7 +13,11 @@ const searchData = {
     text: "",
     ongoing: false,
     school: "Bridgewater_College",
-    sortBy: "asc",
+    sortBy: "",
+    sort: {
+        prop: "name",
+        order: "asc"
+    },
     limit: 4,
     skip: 0
 }
@@ -37,8 +41,8 @@ search.addEventListener('click', async () => await searchGroups());
 parameters.querySelector("#keyword").addEventListener('change', (e) => searchData.text = e.target.value);
 parameters.querySelector("#school").addEventListener('change', (e) => searchData.school = e.target.value);
 parameters.querySelector("#ongoing").addEventListener('change', (e) => searchData.ongoing = e.target.checked);
-parameters.querySelector("#sortBy").addEventListener('change', (e) => searchData.sortBy = e.target.value);
-
+parameters.querySelector("#sortProperty").addEventListener('change', (e) => searchData.sort.prop = e.target.value);
+parameters.querySelector("#sortPropertyOrder").addEventListener('change', (e) => searchData.sort.order = e.target.value);
 
 document.getElementById("insert").addEventListener('click', () => createGroup());
 
@@ -374,7 +378,10 @@ async function create() {
 }
 
 async function searchGroups() {
+    searchData.sortBy = `${searchData.sort.prop}:${searchData.sort.order}`;
+    delete searchData.sort;
     const response = await StudyGroupDatabase.getStudyGroups(searchData);
+    searchData.sort = {};
     for (let i = 0; i < response.length; i++) {
         const element = document.getElementById("studyGroupResults").appendChild(document.createElement("study-group"));
         element.setAttribute('title', response[i].name);

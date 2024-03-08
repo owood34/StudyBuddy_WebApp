@@ -67,7 +67,7 @@ async function getStudyGroups(filter) {
         }
     };
 
-    const queryString = `?ongoing=${filter.ongoing}&school=${filter.school}&search=${filter.text}&limit=${filter.limit}&skip=${filter.skip}&sortBy:${filter.sortBy}`;
+    const queryString = `?ongoing=${filter.ongoing}&school=${filter.school}&search=${filter.text}&limit=${filter.limit}&skip=${filter.skip}&sortBy=${filter.sortBy}`;
 
     const response = await fetch(`${url}/${header}s${queryString}`, options);
     const body = await response.json();
