@@ -2,14 +2,16 @@ import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 import { HTTPStatusCodes } from '../Database/HTTPStatusCodes.js';
 
 const search = document.getElementById("search");
+const parameters = document.querySelector(".parameters");
 const urlParams = new URLSearchParams(window.location.search);
 const didCommand = decodeURIComponent(urlParams.get("createGroup"));
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 // Page can hold 4 Groups.
 
 const searchData = {
     text: "",
-    ongoing: true,
+    ongoing: false,
     school: "",
     sortBy: "",
     limit: 4,
@@ -19,10 +21,11 @@ const searchData = {
 const formData = {
     name: "",
     description: "",
-    isPublic: true,
+    is_public: false,
     maxParticipants: 6,
     school: "Bridgewater College",
     courseNum: "",
+    conversion_times: [],
     meeting_times: [],
     start_date: new Date(),
     end_date: new Date()
@@ -30,7 +33,12 @@ const formData = {
 
 let currentPage = 0;
 
-document.getElementById("search").addEventListener('click', async () => await searchGroups());
+search.addEventListener('click', async () => await searchGroups());
+parameters.querySelector("#keyword").addEventListener('change', (e) => searchData.text = e.target.value);
+parameters.querySelector("#school").addEventListener('change', (e) => searchData.school = e.target.value);
+parameters.querySelector("#ongoing").addEventListener('change', (e) => searchData.ongoing = e.target.checked);
+parameters.querySelector("#sortBy").addEventListener('change', (e) => searchData.sortBy = e.target.value);
+
 
 document.getElementById("insert").addEventListener('click', () => createGroup());
 
@@ -133,7 +141,6 @@ function createGroup() {
     };
 
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
     start.day.innerText = daysOfWeek[today.getDay()];
     end.day.innerText = daysOfWeek[tomorrow.getDay()];
@@ -172,14 +179,15 @@ function createGroup() {
 
     createGroupWrapper.querySelector("#name").addEventListener('input', (e) => formData.name = e.target.value);
     createGroupWrapper.querySelector("#description").addEventListener('input', (e) => formData.description = e.target.value);
-    createGroupWrapper.querySelector("#isPublic").addEventListener('change', (e) => formData.isPublic = e.target.checked);
+    createGroupWrapper.querySelector("#isPublic").addEventListener('change', (e) => formData.is_public = e.target.checked);
     createGroupWrapper.querySelector("#maxParticipants").addEventListener('change', (e) => formData.maxParticipants = e.target.value);
     createGroupWrapper.querySelector("#courseNum").addEventListener('input', (e) => formData.courseNum = e.target.value);
     createGroupWrapper.querySelector("#school").addEventListener('input', (e) => formData.school = e.target.value);
 
     start.month.addEventListener('change', (e) => { 
         formData.start_date.setMonth(e.target.value);
-        start.day.innerText = daysOfWeek[formData.start_date.getDay()]; 
+        start.day.innerText = daysOfWeek[formData.start_date.getDay()];
+        console.log(formData.start_date) 
     });
     end.month.addEventListener('change', (e) => { 
         formData.end_date.setMonth(e.target.value);
@@ -239,13 +247,11 @@ function insertMeeting(cardWrapper) {
     const today = new Date();
     const minute = meetingTimesWrapper.querySelector("#minute");
     const hours = meetingTimesWrapper.querySelector("#hour");
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const weekDay = meetingTimesWrapper.querySelector("#weekDay");
 
     for (let i = 0; i < daysOfWeek.length; i++) {
         const day = weekDay.appendChild(document.createElement('option'));
         day.innerText = daysOfWeek[i];
-        console.log(i, i === today.getDay());
         day.selected = i === today.getDay();
     }
 
@@ -257,13 +263,14 @@ function insertMeeting(cardWrapper) {
     }
     const meetingForm = {
         day: "",
-        time: "",
+        hour: 0,
+        min: 0,
         location: ""
     }
     
     meetingTimesWrapper.querySelector(".close").addEventListener('click', () => close("subtab"));
     meetingTimesWrapper.querySelector(".controls").querySelector(".cancel").addEventListener('click', () => close("subtab"));
-    meetingTimesWrapper.querySelector("#minute").addEventListener('change', (e) => defaultForm.minute = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
+    meetingTimesWrapper.querySelector("#minute").addEventListener('change', (e) => defaultForm.min = e.target.value < 10 ? `0${e.target.value}` : e.target.value);
     meetingTimesWrapper.querySelector("#weekDay").addEventListener('input', (e) => defaultForm.day = e.target.value);
     meetingTimesWrapper.querySelector("#location").addEventListener('input', (e) => defaultForm.location = e.target.value);
     meetingTimesWrapper.querySelector("#hour").addEventListener('change', (e) => { 
@@ -310,8 +317,11 @@ function insertMeeting(cardWrapper) {
                 console.log("Invalid Properties");
                 return;
         }
-        
-        meetingForm.date = `${today.getFullYear()}-${defaultForm.month}-${defaultForm.day}T${defaultForm.hour}:${defaultForm.min}:00+00:00`;
+
+        console.log(defaultForm);
+        meetingForm.day = defaultForm.day;
+        meetingForm.hour = +(defaultForm.hour);
+        meetingForm.min = +(defaultForm.min);
         meetingForm.location = defaultForm.location;
 
         const card = cardWrapper.appendChild(document.createElement("div"));
@@ -326,10 +336,7 @@ function insertMeeting(cardWrapper) {
         const location = card.appendChild(document.createElement("p"));
         location.innerText = meetingForm.location;
 
-        console.log(meetingForm);
-
-        delete meetingForm.time;
-        formData.meeting_times.push(meetingForm);
+        formData.conversion_times.push(meetingForm);
 
         close("subtab");
     }); 
@@ -338,10 +345,24 @@ function insertMeeting(cardWrapper) {
 async function create() {
     if (formData.name.length === 0 ||
         formData.description.length === 0 ||
-        formData.meeting_times.length === 0) {
+        formData.conversion_times.length === 0) {
             console.log("Invalid Properties");
             return;
     }
+
+    for (let i = 0; i < formData.conversion_times.length; i++) {
+        let currentDate = getStartDate(i);
+        const meetingTimes = { dates: [], location: formData.conversion_times[i].location };
+        while (currentDate.getTime() < formData.end_date.getTime()) {
+            meetingTimes.dates.push(new Date(currentDate.getTime()));
+            currentDate.setDate(currentDate.getDate() + 7);
+        }
+        formData.meeting_times.push(meetingTimes);
+    }
+
+    delete formData.conversion_times;
+
+    console.log(formData);
 
     const response = await StudyGroupDatabase.createStudyGroup(formData);
     if (response.okay) {
@@ -353,8 +374,20 @@ async function create() {
 }
 
 async function searchGroups() {
+    console.log(searchData);
     const response = await StudyGroupDatabase.getStudyGroups(searchData);
     console.log(response);
+}
+
+function getStartDate(i) {
+    let date = new Date(formData.start_date.getTime());
+    date.setHours(formData.conversion_times[i].hour, formData.conversion_times[i].min);
+    let difference = daysOfWeek.findIndex((v) => v === formData.conversion_times[i].day) - date.getDay();
+    if (difference < 0) {
+        difference += 7;
+    }
+    date.setDate(date.getDate() + difference);
+    return date;
 }
 
 function close(str) {
