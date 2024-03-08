@@ -388,6 +388,7 @@ async function searchGroups() {
         element.setAttribute("maxMembers", response[i].max_participants);
         element.setAttribute('location', response[i].meeting_times[0].location);
         element.setAttribute("className", response[i].course_number);
+        element.setAttribute("description", response[i].description);
         console.log(element);
     }
 }

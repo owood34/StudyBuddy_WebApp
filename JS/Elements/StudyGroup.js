@@ -25,6 +25,7 @@ class StudyGroup extends HTMLElement {
         const classNum = this.getAttribute("classNum") || "";
         const location = this.getAttribute("location") || "Unknown Location";
         const owner = this.getAttribute("owner") || "Unknown Owner";
+        const description = this.getAttribute("description") || "";
 
         if (classNum === "") {
             this.shadowRoot.innerHTML = `
@@ -46,12 +47,12 @@ class StudyGroup extends HTMLElement {
             `;
         }
 
-        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner));
+        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description));
 
         this.shadowRoot.appendChild(css);
     }
 
-    pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner) {
+    pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description) {
         document.body.querySelector(".content").classList.toggle("blurry");
         this.clicked = !this.clicked;
 
@@ -66,6 +67,7 @@ class StudyGroup extends HTMLElement {
                     <h4> Location: ${location} </h4> 
                     <p> Owner: ${owner} </p>
                     <h4> ${className}</h4>
+                    <p> ${description} </p>
                     <div class="controls">
                         <button id="join"> Join </button> 
                         <button id="cancel"> Cancel </button>
@@ -78,6 +80,7 @@ class StudyGroup extends HTMLElement {
                     <h4> Location: ${location} </h4> 
                     <p> Owner: ${owner} </p>
                     <h4> ${className}, ${classNum}</h4>
+                    <p> ${description} </p>
                     <div class="controls">
                         <button id="join"> Join </button> 
                         <button id="cancel"> Cancel </button>
@@ -85,7 +88,7 @@ class StudyGroup extends HTMLElement {
                 `;
             }
 
-            zoomedIn.addEventListener("click", () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner));
+            zoomedIn.addEventListener("click", () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description));
             zoomedIn.querySelector("#join").addEventListener("click", () => console.log("joined"));
 
             document.body.appendChild(zoomedIn);
@@ -97,7 +100,7 @@ class StudyGroup extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner"];
+        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner", "description"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
