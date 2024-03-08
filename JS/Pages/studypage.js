@@ -24,7 +24,7 @@ const formData = {
     is_public: false,
     maxParticipants: 6,
     school: "Bridgewater College",
-    courseNum: "",
+    course_number: "",
     conversion_times: [],
     meeting_times: [],
     start_date: new Date(),
@@ -181,7 +181,7 @@ function createGroup() {
     createGroupWrapper.querySelector("#description").addEventListener('input', (e) => formData.description = e.target.value);
     createGroupWrapper.querySelector("#isPublic").addEventListener('change', (e) => formData.is_public = e.target.checked);
     createGroupWrapper.querySelector("#maxParticipants").addEventListener('change', (e) => formData.maxParticipants = e.target.value);
-    createGroupWrapper.querySelector("#courseNum").addEventListener('input', (e) => formData.courseNum = e.target.value);
+    createGroupWrapper.querySelector("#courseNum").addEventListener('input', (e) => formData.course_number = e.target.value);
     createGroupWrapper.querySelector("#school").addEventListener('input', (e) => formData.school = e.target.value);
 
     start.month.addEventListener('change', (e) => { 
@@ -378,8 +378,9 @@ async function searchGroups() {
     for (let i = 0; i < response.length; i++) {
         const element = document.getElementById("studyGroupResults").appendChild(document.createElement("study-group"));
         element.setAttribute('title', response[i].name);
-        element.setAttribute('maxMembers', response[i].max_participants);
+        element.setAttribute("maxMembers", response[i].max_participants);
         element.setAttribute('location', response[i].meeting_times[0].location);
+        element.setAttribute("className", response[i].course_number);
         console.log(element);
     }
 }

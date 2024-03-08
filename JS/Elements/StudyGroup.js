@@ -20,8 +20,8 @@ class StudyGroup extends HTMLElement {
 
         const title = this.getAttribute("title") || "Unknown Title";
         const currentParticipants = this.getAttribute("members") || 0;
-        const maxParticipants = this.getAttribute("maxMembers") || 6;
-        const className = this.getAttribute("className") || "Unknown Name";
+        const maxParticipants = this.getAttribute("maxmembers") || 6;
+        const className = this.getAttribute("classname") || "Unknown Name";
         const classNum = this.getAttribute("classNum") || "";
         const location = this.getAttribute("location") || "Unknown Location";
         const owner = this.getAttribute("owner") || "Unknown Owner";
@@ -97,7 +97,7 @@ class StudyGroup extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "members", "maxMembers", "className", "classNum", "location", "owner"];
+        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
