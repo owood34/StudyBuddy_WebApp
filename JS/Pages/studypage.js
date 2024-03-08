@@ -374,7 +374,6 @@ async function create() {
 }
 
 async function searchGroups() {
-
     const response = await StudyGroupDatabase.getStudyGroups(searchData);
     for (let i = 0; i < response.length; i++) {
         const element = document.getElementById("studyGroupResults").appendChild(document.createElement("study-group"));
