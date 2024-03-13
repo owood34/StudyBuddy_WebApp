@@ -1,17 +1,16 @@
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
-import { HTTPStatusCodes } from '../Database/HTTPStatusCodes.js';
 
 const search = document.getElementById("search");
 const parameters = document.querySelector(".parameters");
 const urlParams = new URLSearchParams(window.location.search);
 const didCommand = decodeURIComponent(urlParams.get("createGroup"));
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // Page can hold 4 Groups.
 
 const searchData = {
     text: "",
-    ongoing: false,
+    ongoing: "both",
     school: "Bridgewater_College",
     sortBy: "",
     sort: {
@@ -40,7 +39,7 @@ let currentPage = 0;
 search.addEventListener('click', async () => await searchGroups());
 parameters.querySelector("#keyword").addEventListener('change', (e) => searchData.text = e.target.value);
 parameters.querySelector("#school").addEventListener('change', (e) => searchData.school = e.target.value);
-parameters.querySelector("#ongoing").addEventListener('change', (e) => searchData.ongoing = e.target.checked);
+parameters.querySelector("#ongoing").addEventListener('change', (e) => searchData.ongoing = e.target.value);
 parameters.querySelector("#sortProperty").addEventListener('change', (e) => searchData.sort.prop = e.target.value);
 parameters.querySelector("#sortPropertyOrder").addEventListener('change', (e) => searchData.sort.order = e.target.value);
 
@@ -179,7 +178,7 @@ function createGroup() {
     createGroupWrapper.querySelector(".cancel").addEventListener('click', () => close("maintab"));
     createGroupWrapper.querySelector(".controls").querySelector("#next").addEventListener('click', () => page(pages, 1));
     createGroupWrapper.querySelector(".controls").querySelector("#previous").addEventListener('click', () => page(pages, -1));
-    createGroupWrapper.querySelector(".times").querySelector("#insertMeeting").addEventListener('click', () => insertMeeting(cardWrapper));
+    createGroupWrapper.querySelector(".times").querySelector("#insertMeeting").addEventListener('click', () => insertMeeting(cardWrapper, undefined));
 
     createGroupWrapper.querySelector("#name").addEventListener('input', (e) => formData.name = e.target.value);
     createGroupWrapper.querySelector("#description").addEventListener('input', (e) => formData.description = e.target.value);
@@ -191,7 +190,6 @@ function createGroup() {
     start.month.addEventListener('change', (e) => { 
         formData.start_date.setMonth(e.target.value);
         start.day.innerText = daysOfWeek[formData.start_date.getDay()];
-        console.log(formData.start_date) 
     });
     end.month.addEventListener('change', (e) => { 
         formData.end_date.setMonth(e.target.value);
@@ -221,10 +219,10 @@ function page(pages, num) {
     pages[currentPage % pages.length].classList.add("active");
 }
 
-function insertMeeting(cardWrapper) {
+function insertMeeting(cardWrapper, cardInfo) {
     const meetingTimesWrapper = document.body.appendChild(document.createElement("div"));
     meetingTimesWrapper.classList.add("smallPopup");
-    
+
     meetingTimesWrapper.innerHTML = `
         <img src="./Images/close_button.png" class="close" />
         <div class="form">
@@ -244,7 +242,7 @@ function insertMeeting(cardWrapper) {
             </div>
             <div class="controls">
                 <button class="create"> Create </button>
-                <button class="cancel"> Cancel </button>
+                <button class="cancel"> ${cardInfo ? "Delete" : "Cancel"} </button>
             </div> 
         </div>
     `;
@@ -253,10 +251,20 @@ function insertMeeting(cardWrapper) {
     const hours = meetingTimesWrapper.querySelector("#hour");
     const weekDay = meetingTimesWrapper.querySelector("#weekDay");
 
+    if (cardInfo) {
+        today.setHours(cardInfo.hour);
+        today.setMinutes(cardInfo.min);
+        meetingTimesWrapper.querySelector("#location").value = cardInfo.location;
+        const index = formData.conversion_times.findIndex((val) => val.day === cardInfo.day && 
+            val.hour === cardInfo.hour && val.min === cardInfo.min && val.location === cardInfo.location);
+        formData.conversion_times.splice(index, 1);
+        [...cardWrapper.children][index].remove();
+    }
+
     for (let i = 0; i < daysOfWeek.length; i++) {
         const day = weekDay.appendChild(document.createElement('option'));
         day.innerText = daysOfWeek[i];
-        day.selected = i === today.getDay();
+        day.selected = cardInfo ? i === daysOfWeek.findIndex((val) => val === cardInfo.day) : i === today.getDay();
     }
 
     const defaultForm = {
@@ -322,7 +330,6 @@ function insertMeeting(cardWrapper) {
                 return;
         }
 
-        console.log(defaultForm);
         meetingForm.day = defaultForm.day;
         meetingForm.hour = +(defaultForm.hour);
         meetingForm.min = +(defaultForm.min);
@@ -339,6 +346,8 @@ function insertMeeting(cardWrapper) {
 
         const location = card.appendChild(document.createElement("p"));
         location.innerText = meetingForm.location;
+
+        card.addEventListener('click', () => insertMeeting(cardWrapper, meetingForm));
 
         formData.conversion_times.push(meetingForm);
 
@@ -366,8 +375,6 @@ async function create() {
 
     delete formData.conversion_times;
 
-    console.log(formData);
-
     const response = await StudyGroupDatabase.createStudyGroup(formData);
     if (response.okay) {
         close("maintab");
@@ -390,7 +397,7 @@ async function searchGroups() {
         element.setAttribute('location', response[i].meeting_times[0].location);
         element.setAttribute("className", response[i].course_number);
         element.setAttribute("description", response[i].description);
-        console.log(element);
+        element.setAttribute("meetingTimes", JSON.stringify("[" + response[i].meeting_times + "]"));
     }
 }
 

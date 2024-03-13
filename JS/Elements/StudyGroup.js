@@ -1,6 +1,7 @@
 class StudyGroup extends HTMLElement {
     
     clicked = false;
+    
 
     constructor() {
         super();
@@ -26,12 +27,33 @@ class StudyGroup extends HTMLElement {
         const location = this.getAttribute("location") || "Unknown Location";
         const owner = this.getAttribute("owner") || "Unknown Owner";
         const description = this.getAttribute("description") || "";
+        const meetingTimes = JSON.parse(this.getAttribute("meetingTimes")) || [];
+        const maxTime = 8640000000000000;
+        
+        let closestMeetingTime = new Date();
+        closestMeetingTime.setTime(maxTime);
+        const today = new Date(); 
+
+        if (meetingTimes.length !== 0) {
+            for (let i = 0; i < meetingTimes.length; i++) {
+                for (let j = 0; j < meetingTimes[i].dates.length; j++) {
+                    const meetingDay = new Date(Date.parse(meetingTimes[i].dates[j]));
+                    const difference = meetingDay.getTime() - today.getTime();
+                    if (difference > 0 && difference < (closestMeetingTime.getTime() - today.getTime())) {
+                        closestMeetingTime = new Date(meetingDay.getTime());
+                    }
+                }
+            }
+        }
+
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        closestMeetingTime = closestMeetingTime.toLocaleDateString('en-US', options);
 
         if (classNum === "") {
             this.shadowRoot.innerHTML = `
                 <div class="wrapper">
                     <h3> ${title} </h3> 
-                    <p> Members: ${currentParticipants} / ${maxParticipants} </p>
+                    <p> ${closestMeetingTime} </p>
                     <h4 class="location"> Location:  ${location} </h4>
                     <h4> ${className} </h4>
                 </div>
@@ -40,19 +62,19 @@ class StudyGroup extends HTMLElement {
             this.shadowRoot.innerHTML = `
                 <div class="wrapper">
                     <h3> ${title} </h3> 
-                    <p> Members: ${currentParticipants} / ${maxParticipants} </p>
+                    <p> ${closestMeetingTime} </p>
                     <h4 class="location"> Location: ${location} </h4>
                     <h4> ${className}, ${classNum} </h4>
                 </div>
             `;
         }
 
-        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description));
+        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description, closestMeetingTime));
 
         this.shadowRoot.appendChild(css);
     }
 
-    pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description) {
+    pressed(title, currentParticipants, maxParticipants, className, classNum, location, owner, description, closestMeetingTime) {
         document.body.querySelector(".content").classList.toggle("blurry");
         this.clicked = !this.clicked;
 
@@ -63,6 +85,7 @@ class StudyGroup extends HTMLElement {
             if (classNum === "") {
                 zoomedIn.innerHTML = `
                     <h3> ${title} </h3> 
+                    <p> ${closestMeetingTime} </p>
                     <p> Members: ${currentParticipants} / ${maxParticipants} </p>
                     <h4> Location: ${location} </h4> 
                     <p> Owner: ${owner} </p>
@@ -75,7 +98,8 @@ class StudyGroup extends HTMLElement {
                 `;
             } else {
                 zoomedIn.innerHTML = `
-                    <h3> ${title} </h3> 
+                    <h3> ${title} </h3>
+                    <p> ${closestMeetingTime} </p> 
                     <p> Members: ${currentParticipants} / ${maxParticipants} </p>
                     <h4> Location: ${location} </h4> 
                     <p> Owner: ${owner} </p>
@@ -100,7 +124,7 @@ class StudyGroup extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner", "description"];
+        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner", "description", "meetingTimes"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
