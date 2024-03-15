@@ -63,7 +63,6 @@ function edit(groupInfo, mode) {
         wrapper.querySelector(".edit").addEventListener('click', async () => await edit(groupInfo, true));
     } else {
         document.body.lastChild.remove();
-        console.log(groupInfo);
         const start_date = new Date(Date.parse(groupInfo.start_date));
         const end_date = new Date(Date.parse(groupInfo.end_date));
         const form = {
@@ -271,15 +270,13 @@ function addMeetingTime(wrapper, mt, meeting_times) {
     remove.classList.add("remove");
     remove.addEventListener('click', () => { 
         meeting_times.splice(location.index, 1);
-        console.log(meeting_times);
         const divs = [...wrapper.querySelector(".times").getElementsByClassName("mtDiv")]
         divs[mtDiv.index].remove();
         divs.splice(mtDiv.index, 1);
         for (let i = 0; i < divs.length; i++) { 
             divs[i].index = i;
-            console.log(divs[i], divs[i].index);
         }
     })
-    
+
     return { dates: [mtDay], location: location.placeholder };
 }
