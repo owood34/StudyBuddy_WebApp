@@ -177,24 +177,22 @@ function edit(groupInfo, mode) {
             form.meeting_times.forEach((mt) => {
                 mt.time = new Date(mt.dates[0].getTime());
                 mt.day = mt.day ? mt.day : mt.dates[0].getDay();
-                if (mt.day) {
-                    console.log("Going Inside");
-                    delete mt.dates;
-                    mt.dates = [];
+                
+                delete mt.dates;
+                mt.dates = [];
 
-                    let mtDate = new Date(form.start_date.getTime());
-                    mtDate.setHours(mt.time.getHours(), mt.time.getMinutes());
+                let mtDate = new Date(form.start_date.getTime());
+                mtDate.setHours(mt.time.getHours(), mt.time.getMinutes());
                     
-                    let difference = +(mt.day) - mtDate.getDay();
-                    if (difference < 0) {
-                        difference += 7;
-                    } 
+                let difference = +(mt.day) - mtDate.getDay();
+                if (difference < 0) {
+                    difference += 7;
+                } 
 
-                    mtDate.setDate(mtDate.getDate() + difference);
-                    while (mtDate.getTime() < form.end_date.getTime()) {
-                        mt.dates.push(new Date(mtDate.getTime()));
-                        mtDate.setDate(mtDate.getDate() + 7);
-                    }
+                mtDate.setDate(mtDate.getDate() + difference);
+                while (mtDate.getTime() < form.end_date.getTime()) {
+                    mt.dates.push(new Date(mtDate.getTime()));
+                    mtDate.setDate(mtDate.getDate() + 7);
                 }
             });
 
