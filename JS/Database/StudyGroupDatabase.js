@@ -1,5 +1,5 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net"
+const url = "http://localhost:3000"
 // "https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "studygroup";
@@ -47,6 +47,31 @@ async function getAllStudyGroups() {
 }
 
 /**
+ * Get All StudyGroup owned by the account logged in
+ * @returns { Array } { studygroup[] }
+ */
+async function getAllOwnedStudyGroups() {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const options = { 
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    }
+
+    const response = await fetch(`${url}/${header}s/owned`, options);
+    const body = await response.json();
+
+    return body;
+}
+
+/**
  * Gets all Groups that the filter tells it to get.
  * @param {Object} filter
  * @returns {Array} Study Group Array
@@ -75,7 +100,35 @@ async function getStudyGroups(filter) {
     return body;
 }
 
+/**
+ * Edits a Study Group by Id
+ * @param { Any } id - StudyGroupId
+ * @param { Object } mods - Modifications to StudyGroup
+ * @return { Object } { StudyGroup }
+ */
+async function editStudyGroupById(id, mods) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(mods),
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const response = await fetch(`${url}/${header}/${id}`, options);
+    const body = await response.json();
+
+    return body;
+}
 
 
-export { createStudyGroup, getAllStudyGroups, getStudyGroups }
+
+export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllOwnedStudyGroups, editStudyGroupById }
 

@@ -18,9 +18,6 @@ class NavigationBar extends HTMLElement {
         const notificationAmount = +(this.getAttribute("notification-amount")) || 0;
         const isDarkMode = darkMode ? "dark" : "";
         const isVisible = notificationAmount === 0 ? "hidden" : "visible";
-
-        console.log(localStorage.getItem("token"));
-
         const accountSetting = localStorage.getItem("token") !== null ? "./account.html" : "./login.html";
         //const accountSetting = "./login.html";
         

@@ -12,12 +12,35 @@
 .screen div {
     width: 100%;
     padding: 10px;
+    position: relative;
 }
 
 h3 {
     text-align: center;
     color: #525B88;
     border-bottom: 3px solid #DEE2FC;
+}
+
+input[type="text"] {
+    width: 10vw;
+    height: 20px;
+    background-color: hsl(230, 25%, 90%);
+    border: 0;
+    border-bottom: 2px hsl(84, 41%, 30%) solid;
+    border-right: 1px hsl(84, 41%, 30%) solid;
+}
+
+select {
+    background-color: transparent;
+    width: fit-content;
+    font-size: large;
+    border: none;
+    appearance: none;
+    outline: none;
+    scroll-behavior: smooth;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: hsl(84, 41%, 38%);
 }
 
 .message {
@@ -32,6 +55,135 @@ h3 {
 
 .message h2 {
     color: #525B88;
+}
+
+.groups {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 40vh;
+}
+
+.groups .group {
+    background-color:hsl(230, 25%, 95%);
+    box-shadow: 5px 5px 5px lightgray;
+    text-align: center;
+    width: 50% !important;
+    margin: auto;
+    cursor: pointer;
+}
+
+.groups *:not(:first-child) {
+    margin-top: 10px;
+}
+
+.zoomedInGroup {
+    position: absolute;
+    background-color:hsl(230, 25%, 95%);
+    box-shadow: 10px 5px 5px lightgray;
+    top: 28%;
+    right: 25%;
+    width: 50%;
+}
+
+.zoomedInGroup .form {
+    margin-left: 40px;
+}
+
+.zoomedInGroup img.close {
+    cursor: pointer;
+    position: absolute;
+    top: 2%;
+    left: 95%;
+}
+
+.zoomedInGroup .controls {
+    transform: translate(47%, -20%);
+}
+
+.controls button.close {
+    cursor: pointer;
+    font-size: 20px;
+    color: #DEE2FC;
+    background-color: rgba(255, 57, 57, 0.8);
+    border: 0;
+}
+
+.controls button:is(.edit, .save)  {
+    cursor: pointer;
+    font-size: 20px;
+    color: #DEE2FC;
+    background-color: rgba(33, 180, 13, 0.8);
+    border: 0;
+}
+
+.remove {
+    cursor: pointer;
+}
+
+.zoomedInGroup img.close:hover, 
+.controls *:hover,
+.groups .group:hover,
+.remove:hover {
+    scale: 1.1;
+}
+
+.zoomedInGroup h2 {
+    text-align: center;
+}
+
+.time select {
+    width: 75px;
+}
+
+.mtDiv .day {
+    width: 120px;
+}
+
+.zoomedInGroup .timeText,
+.form :is(.start_date, .end_date) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.zoomedInGroup .times {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.zoomedInGroup .times .mtDiv,
+.zoomedInGroup .times .time {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.zoomedInGroup .times .mtDiv p {
+    text-align: left;
+}
+
+.zoomedInGroup .timeText .mtDiv {
+    position: relative;
+    text-indent: 0 !important;
+}
+
+.zoomedInGroup .times * {
+    text-indent: 20px;
+}
+
+.zoomedInGroup .times .time {
+    width: fit-content;
+}
+
+img {
+    width: 30px !important;
+    height: 30px !important;
+    aspect-ratio: 1 /1 !important;
 }
 
 body::after {

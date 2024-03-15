@@ -392,12 +392,21 @@ async function searchGroups() {
     document.getElementById("studyGroups").innerHTML = '';
     for (let i = 0; i < response.length; i++) {
         const element = document.getElementById("studyGroups").appendChild(document.createElement("study-group"));
+        console.log(response[i]);
+        let jsonString = "";
+        for (let j = 0; j < response[i].meeting_times.length; j++) {
+            for (let k = 0; k < response[i].meeting_times[j].dates.length; k++) {
+                jsonString += `${response[i].meeting_times[j].dates[k]}`;
+                jsonString += ",";
+            }
+        }
+
+        element.setAttribute("times", JSON.stringify(`[${jsonString}]`));
         element.setAttribute('title', response[i].name);
         element.setAttribute("maxMembers", response[i].max_participants);
         element.setAttribute('location', response[i].meeting_times[0].location);
         element.setAttribute("className", response[i].course_number);
         element.setAttribute("description", response[i].description);
-        element.setAttribute("meetingTimes", JSON.stringify("[" + response[i].meeting_times + "]"));
     }
 }
 

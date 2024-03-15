@@ -6,6 +6,7 @@ div {
     width: 100%;
     box-shadow: 5px 5px 5px lightgray;
     margin: 20px 0 0 0;
+    cursor: pointer;
 }
 
 div * {
@@ -14,4 +15,5 @@ div * {
 
 div:hover {
     box-shadow: 5px 5px 5px lightgreen;
+    scale: 1.1;
 }

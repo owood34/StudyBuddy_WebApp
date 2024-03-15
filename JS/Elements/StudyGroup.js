@@ -27,22 +27,26 @@ class StudyGroup extends HTMLElement {
         const location = this.getAttribute("location") || "Unknown Location";
         const owner = this.getAttribute("owner") || "Unknown Owner";
         const description = this.getAttribute("description") || "";
-        const meetingTimes = JSON.parse(this.getAttribute("meetingTimes")) || [];
+        let meetingTimes = JSON.parse(this.getAttribute("times")) || "";
         const maxTime = 8640000000000000;
-        
+
+        console.log(meetingTimes);
+        meetingTimes = meetingTimes.replace("[", "").replace("]", "").split(",");
+        console.log(meetingTimes);
         let closestMeetingTime = new Date();
         closestMeetingTime.setTime(maxTime);
         const today = new Date(); 
 
         if (meetingTimes.length !== 0) {
             for (let i = 0; i < meetingTimes.length; i++) {
-                for (let j = 0; j < meetingTimes[i].dates.length; j++) {
-                    const meetingDay = new Date(Date.parse(meetingTimes[i].dates[j]));
-                    const difference = meetingDay.getTime() - today.getTime();
+                const meetingDay = new Date(Date.parse(meetingTimes[i]));
+                const difference = meetingDay.getTime() - today.getTime();
+                console.log(meetingTimes[i], meetingDay, difference);
+                if (!isNaN(difference)) {
                     if (difference > 0 && difference < (closestMeetingTime.getTime() - today.getTime())) {
                         closestMeetingTime = new Date(meetingDay.getTime());
                     }
-                }
+                } 
             }
         }
 
