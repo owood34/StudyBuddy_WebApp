@@ -200,6 +200,7 @@ function edit(groupInfo, mode) {
             await StudyGroupDatabase.editStudyGroupById(groupInfo._id, form);
             document.body.lastChild.remove();
             document.body.querySelector(".screen").classList.toggle("blurry");
+            location.reload();
         });
 
     }
