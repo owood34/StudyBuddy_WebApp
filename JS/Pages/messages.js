@@ -177,7 +177,12 @@ function edit(groupInfo, mode) {
             form.meeting_times.forEach((mt) => {
                 mt.time = new Date(mt.dates[0].getTime());
                 mt.day = mt.day ? mt.day : mt.dates[0].getDay();
-                
+
+                if (mt.location.length === 0) {
+                    alert(`Cannot Find Location for ${daysOfWeek[mt.day]}.`);
+                    return;
+                }
+
                 delete mt.dates;
                 mt.dates = [];
 
@@ -275,7 +280,6 @@ function addMeetingTime(wrapper, mt, meeting_times) {
             console.log(divs[i], divs[i].index);
         }
     })
-
-
+    
     return { dates: [mtDay], location: location.placeholder };
 }
