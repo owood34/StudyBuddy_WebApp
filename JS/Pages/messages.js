@@ -176,6 +176,7 @@ function edit(groupInfo, mode) {
             
             form.meeting_times.forEach((mt) => {
                 mt.time = new Date(mt.dates[0].getTime());
+                mt.day = mt.day ? mt.day : mt.dates[0].getDay();
                 if (mt.day) {
                     console.log("Going Inside");
                     delete mt.dates;
