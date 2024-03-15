@@ -195,13 +195,11 @@ function edit(groupInfo, mode) {
                         mtDate.setDate(mtDate.getDate() + 7);
                     }
                 }
-                console.log(mt);
             });
 
-            console.log(form);
-
-            const response = await StudyGroupDatabase.editStudyGroupById(groupInfo._id, form);
-            console.log(response);
+            await StudyGroupDatabase.editStudyGroupById(groupInfo._id, form);
+            document.body.lastChild.remove();
+            document.body.querySelector(".screen").classList.toggle("blurry");
         });
 
     }
