@@ -69,7 +69,6 @@ select {
     text-align: center;
     width: 50% !important;
     margin: auto;
-    cursor: pointer;
 }
 
 .groups *:not(:first-child) {
@@ -122,8 +121,12 @@ select {
 
 .zoomedInGroup img.close:hover, 
 .controls *:hover,
-.groups .group:hover,
 .remove:hover {
+    scale: 1.1;
+}
+
+.groups .group:hover {
+    cursor: url(../../Images/cursor/edit.png) 2 2, auto;
     scale: 1.1;
 }
 
