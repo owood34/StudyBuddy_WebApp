@@ -17,6 +17,7 @@ const searchData = {
         prop: "name",
         order: "asc"
     },
+    owned: false,
     limit: 4,
     skip: 0
 }
@@ -42,8 +43,22 @@ parameters.querySelector("#school").addEventListener('change', (e) => searchData
 parameters.querySelector("#ongoing").addEventListener('change', (e) => searchData.ongoing = e.target.value);
 parameters.querySelector("#sortProperty").addEventListener('change', (e) => searchData.sort.prop = e.target.value);
 parameters.querySelector("#sortPropertyOrder").addEventListener('change', (e) => searchData.sort.order = e.target.value);
-
+parameters.querySelector("#owned").addEventListener('change', (e) => searchData.owned = e.target.checked);
 document.getElementById("insert").addEventListener('click', () => createGroup());
+
+document.querySelector("#controls").querySelector(".next").addEventListener('click', async () => {
+    searchData.skip += 4;
+    await searchGroups();
+});
+
+document.querySelector("#controls").querySelector(".previous").addEventListener('click', async () => {
+    if (searchData.skip > 0) {
+        searchData.skip -= 4;
+        await searchGroups();
+    } 
+});
+
+await searchGroups();
 
 if (didCommand === "true") {
     createGroup();

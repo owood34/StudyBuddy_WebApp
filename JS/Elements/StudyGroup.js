@@ -30,9 +30,7 @@ class StudyGroup extends HTMLElement {
         let meetingTimes = JSON.parse(this.getAttribute("times")) || "";
         const maxTime = 8640000000000000;
 
-        console.log(meetingTimes);
         meetingTimes = meetingTimes.replace("[", "").replace("]", "").split(",");
-        console.log(meetingTimes);
         let closestMeetingTime = new Date();
         closestMeetingTime.setTime(maxTime);
         const today = new Date(); 
@@ -41,7 +39,6 @@ class StudyGroup extends HTMLElement {
             for (let i = 0; i < meetingTimes.length; i++) {
                 const meetingDay = new Date(Date.parse(meetingTimes[i]));
                 const difference = meetingDay.getTime() - today.getTime();
-                console.log(meetingTimes[i], meetingDay, difference);
                 if (!isNaN(difference)) {
                     if (difference > 0 && difference < (closestMeetingTime.getTime() - today.getTime())) {
                         closestMeetingTime = new Date(meetingDay.getTime());

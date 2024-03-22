@@ -121,7 +121,8 @@ select {
 
 .zoomedInGroup img.close:hover, 
 .controls *:hover,
-.remove:hover {
+.remove:hover,
+#search:hover {
     scale: 1.1;
 }
 
@@ -187,6 +188,15 @@ img {
     width: 30px !important;
     height: 30px !important;
     aspect-ratio: 1 /1 !important;
+}
+
+#search {
+    position: absolute;
+    top: 5%;
+    right: 24%;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer;
 }
 
 body::after {
