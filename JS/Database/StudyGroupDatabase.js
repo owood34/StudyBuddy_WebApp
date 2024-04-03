@@ -198,7 +198,33 @@ async function leaveStudyGroup(id) {
     return response.status;
 }
 
+/** 
+ * Removes the currently logged in user from Study Group
+ * @param { String } studygroupId
+ * @returns { Number } Status Code Message
+ * */ 
+
+async function deleteStudyGroup(id) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const response = await fetch(`${url}/${header}/${id}`, options);
+
+    return response.status;
+}
 
 
-export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllParticipatingStudyGroups, editStudyGroupById, getStudyGroupById, joinStudyGroup, leaveStudyGroup }
+
+export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllParticipatingStudyGroups, editStudyGroupById, getStudyGroupById, joinStudyGroup, leaveStudyGroup, deleteStudyGroup }
 

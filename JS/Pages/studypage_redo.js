@@ -1,3 +1,4 @@
+import { HTTPStatusCodes } from '../Database/HTTPStatusCodes.js';
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 import * as UserDatabase from '../Database/UserDatabase.js';
 
@@ -363,6 +364,7 @@ function createGroup(cardInfo) {
 
     createGroupWrapper.querySelector(".create")?.addEventListener('click', async () => await create());
     createGroupWrapper.querySelector(".save")?.addEventListener('click', async () => await save());
+    createGroupWrapper.querySelector(".delete")?.addEventListener('click', async () => await remove());
 }
 
 async function create() {
@@ -438,11 +440,16 @@ async function save() {
     alert("Unable to Save Your Study Group");
 }
 
-function remove() {
+async function remove() {
     const reply = prompt("To delete please type the name of the group: ");
 
     if (reply === formData.name) {
-        console.log("delete");
+        const response = await StudyGroupDatabase.deleteStudyGroup(groupId);
+        if (response === HTTPStatusCodes.OKAY) {
+            alert("Successfully Deleted Group!");
+            return;
+        }
+        alert("Unable to delete Group");
         return;   
     }
 
