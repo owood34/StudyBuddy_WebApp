@@ -1,5 +1,5 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net"
+const url = "http://localhost:3000"
 // "https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "studygroup";
@@ -33,6 +33,20 @@ async function createStudyGroup(studygroup) {
 }
 
 /** 
+ * Gets a Study Groups inside the Database.
+ * @returns { Object } { studygroup }
+ * */ 
+
+async function getStudyGroupById(id) {
+    const options = { method: "GET" };
+
+    const response = await fetch(`${url}/${header}/${id}`, options);
+    const body = await response.json();
+
+    return body;
+}
+
+/** 
  * Gets all Study Groups inside the Database.
  * @returns { Array } { studygroups[] }
  * */ 
@@ -50,7 +64,7 @@ async function getAllStudyGroups() {
  * Get All StudyGroup owned by the account logged in
  * @returns { Array } { studygroup[] }
  */
-async function getAllOwnedStudyGroups() {
+async function getAllParticipatingStudyGroups() {
     if (!localStorage.getItem("token") || 
         localStorage.getItem("token").length === 0) {
             return { status: 401, studygroup: undefined }
@@ -65,7 +79,7 @@ async function getAllOwnedStudyGroups() {
         }
     }
 
-    const response = await fetch(`${url}/${header}s/owned`, options);
+    const response = await fetch(`${url}/${header}s/particpants`, options);
     const body = await response.json();
 
     return body;
@@ -128,7 +142,63 @@ async function editStudyGroupById(id, mods) {
     return body;
 }
 
+/** 
+ * Adds the current logged in user to database
+ * @param { String } studygroupId
+ * @returns { Number } Status Code Message
+ * */ 
+
+async function joinStudyGroup(id) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const action = { action: "join"}
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(action),
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const response = await fetch(`${url}/${header}/${id}/action`, options);
+
+    return response.status;
+}
+
+/** 
+ * Removes the currently logged in user from Study Group
+ * @param { String } studygroupId
+ * @returns { Number } Status Code Message
+ * */ 
+
+async function leaveStudyGroup(id) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const action = { action: "leave"}
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(action),
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const response = await fetch(`${url}/${header}/${id}/action`, options);
+
+    return response.status;
+}
 
 
-export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllOwnedStudyGroups, editStudyGroupById }
+
+export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllParticipatingStudyGroups, editStudyGroupById, getStudyGroupById, joinStudyGroup, leaveStudyGroup }
 

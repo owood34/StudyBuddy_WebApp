@@ -4,6 +4,10 @@ body {
     justify-content: space-between;
 }
 
+h1 {
+    text-align: center;
+}
+
 body::after {
     content: '';
     display: block;

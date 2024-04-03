@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="./CSS/Pages/studygroups.css">
         <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
         <script src="./JS/Elements/NavigationBar.js"></script>
-        <script src="./JS/Elements/StudyGroup.js"></script>
+        <script type="module" src="./JS/Elements/StudyGroup.js"></script>
         <script src="./JS/Elements/CustomFooter.js"></script>
         <script src="./JS/commands.js"></script>
     </head>
@@ -50,6 +50,10 @@
                         <label for="owned"> Only Your Study Groups? </label>
                         <input type="checkbox" id="owned" name="owned">
                     </div>
+                    <div class="group">
+                        <label for="member"> A Member of a StudyGroup </label>
+                        <input type="checkbox" id="member" name="member">
+                    </div>
                 </div>
             </div>
             <div id="studyGroupResults">
@@ -62,7 +66,7 @@
                 </div>
             </div> 
         </div>
-        <script type="module" src="./JS/Pages/studypage.js"></script>
+        <script type="module" src="./JS/Pages/studypage_redo.js"></script>
         <custom-footer></custom-footer>
     </body>
 </html>

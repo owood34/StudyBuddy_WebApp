@@ -1,5 +1,6 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net";
+const url = "http://localhost:3000"
+//"https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "user";
 
@@ -24,6 +25,18 @@ async function getActiveUser() {
         return body;
     }
     return undefined;
+}
+
+/** 
+ * Gets the Current User Logged in
+ * @returns { String } username
+ * */
+async function getUsername(username) {
+    const options = { method: "GET" };
+
+    const response = await fetch(`${url}/${header}/${username}`, options);
+    
+    return response.json();
 }
 
 /** 
@@ -160,4 +173,4 @@ async function deleteAllUsers() {
 
 
 
-export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser, loginUser }
+export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser, loginUser, getUsername }

@@ -1,8 +1,62 @@
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 
-const groups = document.querySelector(".studyGroups").querySelector(".groups");
-const ownedGroups = await StudyGroupDatabase.getAllOwnedStudyGroups();
-const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const groups = document.body.querySelector(".studyGroups").querySelector(".groups");
+const ownedGroups = await StudyGroupDatabase.getAllParticipatingStudyGroups();
+console.log(ownedGroups);
+
+ownedGroups.forEach((g) => studyGroupTab(g));
+
+function studyGroupTab(groupInfo) {
+    const wrapper = groups.appendChild(document.createElement("div"));
+    wrapper.classList.add("group");
+    wrapper.innerHTML = `
+        <h2> ${groupInfo.name} </h2>
+        <p> ${groupInfo.course_number} </p>
+        <p> ${groupInfo.description} </p>
+    `
+    wrapper.addEventListener('click', () => zoom(groupInfo));
+}
+
+function zoom(groupInfo) {
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const wrapper = document.createElement("div");
+    
+    wrapper.classList.add("zoomedInGroup");
+    document.body.querySelector(".screen").classList.toggle("blurry");
+    wrapper.innerHTML = `
+        <img src="./Images/close_button.png" class="close" />
+        <div class="form">
+            <h2> ${groupInfo.name} </h2>
+            <p> Course Number: ${groupInfo.course_number}</p>
+            <p> Start Date: ${new Date(Date.parse(groupInfo.start_date)).toLocaleDateString('en-US', dateOptions)} </p>
+            <p> End Date: ${new Date(Date.parse(groupInfo.end_date)).toLocaleDateString('en-US', dateOptions)} </p>
+            <p> Public Group: ${groupInfo.is_public} </p>
+            <p> Max Participants: ${groupInfo.max_participants} </p>
+            <h4> Meeting Times: </h4>
+            <div class="times"></div>
+            <p> ${groupInfo.description} </p>
+        </div> 
+    `;
+
+    const times = wrapper.querySelector(".times");
+    if (groupInfo.meeting_times) {
+        groupInfo.meeting_times.forEach((mt) => {
+            const time = times.appendChild(document.createElement("div"));
+            const date = new Date(Date.parse(mt.dates[0]));
+            time.classList.add("meetingtime");
+            time.appendChild(document.createElement("h5")).innerText = `${mt.location}, ${daysOfWeek[date.getDay()]}, ${date.getHours()}:${date.getMinutes()} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
+        });
+    }
+    
+    [...wrapper.getElementsByClassName("close")].forEach((elm) => elm.addEventListener('click', () => {
+        document.body.lastChild.remove();
+        document.body.querySelector(".screen").classList.toggle("blurry");
+    }));
+    
+    document.body.appendChild(wrapper);
+}
+/* const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -279,4 +333,4 @@ function addMeetingTime(wrapper, mt, meeting_times) {
     })
 
     return { dates: [mtDay], location: location.placeholder };
-}
+} */

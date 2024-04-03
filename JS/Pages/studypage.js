@@ -1,3 +1,15 @@
+/**
+ * THINGS TO IMPROVE:
+ * - Code Efficency,
+ * - Code Readability
+ * - Edit Function
+ * - Join Function
+ * - Leave Function
+ * - Ability to see All of the times it is avaliable
+ * - Ability to see who all is in it
+ *  */
+
+
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 
 const search = document.getElementById("search");
