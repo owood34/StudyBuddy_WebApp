@@ -127,7 +127,6 @@ select {
 }
 
 .groups .group:hover {
-    cursor: url(../../Images/cursor/edit.png) 2 2, auto;
     scale: 1.1;
 }
 
