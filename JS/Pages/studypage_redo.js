@@ -445,6 +445,7 @@ async function remove() {
 
     if (reply === formData.name) {
         const response = await StudyGroupDatabase.deleteStudyGroup(groupId);
+        console.log(response);
         if (response === HTTPStatusCodes.OKAY) {
             alert("Successfully Deleted Group!");
             return;
