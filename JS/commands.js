@@ -1,7 +1,7 @@
 window.addEventListener('keypress', (e) => {
-    if (e.shiftKey) {
+    if (e.ctrlKey) {
         if (e.key === "G") {
-            location.href = "studypage.html?createGroup=true&id=undefined";
+            location.href = "studypage.html?createGroup=true";
         }
     }
 });

@@ -21,20 +21,28 @@ class CustomNotification extends HTMLElement {
         const title = this.getAttribute("title") || "Unknown Title";
         const message = this.getAttribute("message") || "Unknown Message";
         const sender = this.getAttribute("sender") || "Unknown Sender";
+        const reciever = this.getAttribute("reciever") || "Unknown Reciever";
 
         this.shadowRoot.innerHTML = `
             <div class="wrapper">
                 <h4> ${title} </h4>
-                <p> ${sender} </p>
+                <p> ${message} </p>
             </div>
         `;
 
-        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(title, message, sender));
+        const data = {
+            title: title,
+            message: message,
+            sender: sender,
+            reciever: reciever
+        }
+
+        this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(data));
 
         this.shadowRoot.appendChild(css);
     }
 
-    pressed(title, message, sender) {
+    pressed(data) {
         document.body.querySelector(".screen").classList.toggle("blurry");
         this.clicked = !this.clicked;
 
@@ -43,12 +51,13 @@ class CustomNotification extends HTMLElement {
             
             fullNotification.classList.add("message");
             fullNotification.innerHTML = `
-                <h2> ${title} </h2>
-                <h4> ${sender} </h4>
-                <p> ${message} </p> 
+                <h2> ${data.title} </h2>
+                <h4> From: ${data.sender} </h4>
+                <h4> To: ${data.reciever} </h4>
+                <p> ${data.message} </p> 
             `;
     
-            fullNotification.addEventListener('click', () => this.pressed(title, message, sender))
+            fullNotification.addEventListener('click', () => this.pressed(undefined))
 
             document.body.appendChild(fullNotification)
         } else {

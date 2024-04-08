@@ -1,4 +1,3 @@
-import { HTTPStatusCodes } from '../Database/HTTPStatusCodes.js';
 import * as StudyGroupDatabase from '../Database/StudyGroupDatabase.js';
 import * as UserDatabase from '../Database/UserDatabase.js';
 
@@ -9,6 +8,8 @@ const didCommand = decodeURIComponent(urlParams.get("createGroup")) === "true";
 const groupId = decodeURIComponent(urlParams.get("id"));
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+console.log("Reloading Info");
 
 const searchData = {
     text: "",
@@ -395,8 +396,8 @@ async function create() {
 
     const response = await StudyGroupDatabase.createStudyGroup(formData);
     if (response.okay) {
-        close("maintab");
         alert("Successfully Created Your Study Group!");
+        location.reload();
         return;
     }
 
@@ -442,12 +443,12 @@ async function save() {
 
 async function remove() {
     const reply = prompt("To delete please type the name of the group: ");
-
+    console.log("Replied");
     if (reply === formData.name) {
         const response = await StudyGroupDatabase.deleteStudyGroup(groupId);
-        console.log(response);
-        if (response === HTTPStatusCodes.OKAY) {
+        if (response) {
             alert("Successfully Deleted Group!");
+            location.href = "studypage.html";
             return;
         }
         alert("Unable to delete Group");
@@ -484,12 +485,19 @@ async function searchGroups() {
                 jsonString += ",";
             }
         }
-
-        console.log(response[i].participants);
-
+        const people = [];
         const owner = await UserDatabase.getUsername(response[i].owner);
 
+        for (let j = 0; j < response[i].participants.length; j++) {
+            const name = (await UserDatabase.getUsername(response[i].participants[j])).name;
+            people.push(name);
+        }
+
+        console.log(people.length);
+        console.log([...people], JSON.stringify([...people]));
+
         element.setAttribute("times", JSON.stringify(`[${jsonString}]`));
+        element.setAttribute("participants", JSON.stringify(people));
         element.setAttribute('title', response[i].name);
         element.setAttribute('memberIds', response[i].participants);
         element.setAttribute('members', response[i].participants.length);

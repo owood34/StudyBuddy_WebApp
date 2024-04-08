@@ -145,8 +145,42 @@ h2, h4 {
     gap: 20px;
 }
 
-.studyGroupPopup .context *:nth-child(n-3) {
-    margin-bottom: 50px;
+.studyGroupPopup .member_tooltip {
+    position: absolute;
+    background-color: hsl(84, 41%, 80%);
+    right: 10%;
+    padding: 10px;
+    width: 180px;
+    height: 140px;
+    overflow: auto;
+}
+
+.studyGroupPopup .member_tooltip .title {
+    position: relative;
+    margin-top: 0;
+    width: 100%;
+    background-color: hsl(84, 41%, 38%);
+    border: 0;
+    text-align: center;
+    color:hsl(84, 41%, 94%);
+}
+
+.studyGroupPopup .member_tooltip img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.studyGroupPopup .member_tooltip img:hover {
+    scale: 1.1;
+}
+
+.studyGroupPopup .member_tooltip div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
 }
 
 .studyGroupPopup h3 {

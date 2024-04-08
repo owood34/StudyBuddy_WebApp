@@ -1,5 +1,5 @@
 const isTesting = false;
-const url = "https://studdybuddy-api-server.azurewebsites.net"
+const url = "http://localhost:3000"
 // "https://studdybuddy-api-server.azurewebsites.net";
 
 const header = "studygroup";
@@ -61,7 +61,7 @@ async function getAllStudyGroups() {
 }
 
 /**
- * Get All StudyGroup owned by the account logged in
+ * Get All StudyGroup joined by the account logged in
  * @returns { Array } { studygroup[] }
  */
 async function getAllParticipatingStudyGroups() {
@@ -80,6 +80,31 @@ async function getAllParticipatingStudyGroups() {
     }
 
     const response = await fetch(`${url}/${header}s/particpants`, options);
+    const body = await response.json();
+
+    return body;
+}
+
+/**
+ * Get All StudyGroup owned by the account logged in
+ * @returns { Array } { studygroup[] }
+ */
+async function getAllOwnedStudyGroups() {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const options = { 
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    }
+
+    const response = await fetch(`${url}/${header}s/owned`, options);
     const body = await response.json();
 
     return body;
@@ -199,9 +224,41 @@ async function leaveStudyGroup(id) {
 }
 
 /** 
+ * Kicks a person from a Study Group
+ * @param { String } studygroupId
+ * @param { String } UserId - User you are Kicking
+ * @returns { Number } Status Code Message
+ * */ 
+
+async function kickFromStudyGroup(studyGroupId, userId) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, studygroup: undefined }
+    }
+
+    const token = localStorage.getItem("token");
+    const action = { 
+        action: "kick",
+        user: userId 
+    }
+    const options = {
+        method: "PATCH",
+        body: JSON.stringify(action),
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
+
+    const response = await fetch(`${url}/${header}/${studyGroupId}/action`, options);
+
+    return response.status;
+}
+
+/** 
  * Removes the currently logged in user from Study Group
  * @param { String } studygroupId
- * @returns { Number } Status Code Message
+ * @returns { Boolean } Acknowledged
  * */ 
 
 async function deleteStudyGroup(id) {
@@ -220,11 +277,24 @@ async function deleteStudyGroup(id) {
     };
 
     const response = await fetch(`${url}/${header}/${id}`, options);
+    const body = await response.json();
 
-    return response.status;
+    return body.acknowledged;
 }
 
 
 
-export { createStudyGroup, getAllStudyGroups, getStudyGroups, getAllParticipatingStudyGroups, editStudyGroupById, getStudyGroupById, joinStudyGroup, leaveStudyGroup, deleteStudyGroup }
+export { 
+    createStudyGroup, 
+    getAllStudyGroups, 
+    getStudyGroups, 
+    getAllParticipatingStudyGroups, 
+    editStudyGroupById, 
+    getStudyGroupById, 
+    joinStudyGroup, 
+    leaveStudyGroup, 
+    deleteStudyGroup, 
+    kickFromStudyGroup, 
+    getAllOwnedStudyGroups 
+}
 

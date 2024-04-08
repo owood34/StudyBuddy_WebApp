@@ -1,23 +1,33 @@
-import { Notification } from "./Models";
+const url = "http://localhost:3000";
+//    "studdybuddy-api-server.azurewebsites.net"
 
-const isTesting = false;
-const url = isTesting ? "http://localhost:3000/" : 
-    "studdybuddy-api-server.azurewebsites.net";
+const header = "notification";
 
-const header = "/user/notifications";
+let notifications = [];
+notifications = await getAllNotifications();
+console.log(notifications);
 
 /** 
  * Creates a Notification inside the Database.
  * @param { Object } notification
- * @returns { Notification } { status code, notification / undefined }
+ * @returns { Object } { status code, notification / undefined }
  * */ 
 
-async function createNotification(notification) {
+async function createNotification(notifcation) {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, notification: undefined }
+    }
+
+    const token = localStorage.getItem("token");
     const options = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(notification)
-    }
+        body: JSON.stringify(notifcation),
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        }
+    };
 
     const response = await fetch(`${url}/${header}`, options);
     const body = await response.json();
@@ -26,57 +36,30 @@ async function createNotification(notification) {
 }
 
 /** 
- * Updates an existing Notification inside the Database.
- * @param { Object } notification 
- * @returns { Notification } { status code, notification / undefined }
- * */
+ * Gets All Notifications sent or recieved
+ * @returns { Array } { notifications[] }
+ * */ 
 
-async function updateNotification(notification) {
-    const options = {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(notification)
-        }
-
-        const response = await fetch(`${url}/${header}`, options);
-        const body = await response.json();
-        
-        return body;
-}
-
-/** 
- * Deletes a Notification inside the Database.
- * @param { Object } notification
- * @returns { Number } { status code } 
- * */
-
-async function deleteNotification(notification) {
-    const options = {
-        method: "DELETE"
+async function getAllNotifications() {
+    if (!localStorage.getItem("token") || 
+        localStorage.getItem("token").length === 0) {
+            return { status: 401, notification: undefined }
     }
 
-    const response = await fetch(`${url}/${header}/${notification.notificationId}`, options);
-    const body = await response.json();
-    
-    return body;
-}
+    const token = localStorage.getItem("token");
+    const options = { 
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json" 
+        } 
+    };
 
-/** 
- * Deletes all Notifications of this User inside the Database.
- * @returns { Number } { status code } 
- * */
- 
-async function deleteAllNotifications() {
-    const options = {
-        method: "DELETE"
-    }
-
-    const response = await fetch(`${url}/${header}/all`, options);
+    const response = await fetch(`${url}/${header}s`, options);
     const body = await response.json();
-    
+
     return body;
 }
 
 
-
-export { createNotification, deleteAllNotifications, deleteNotification, updateNotification }
+export { notifications, createNotification, getAllNotifications }

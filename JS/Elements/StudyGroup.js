@@ -30,6 +30,7 @@ class StudyGroup extends HTMLElement {
         const location = this.getAttribute("location") || "Unknown Location";
         const owner = this.getAttribute("owner") || "Unknown Owner";
         const description = this.getAttribute("description") || "";
+        const participants =  JSON.parse(this.getAttribute("participants")) || "";
         const maxTime = 8640000000000000;
 
         let meetingTimes = JSON.parse(this.getAttribute("times")) || "";
@@ -89,7 +90,8 @@ class StudyGroup extends HTMLElement {
             meetingTimes: meetingTimes,
             closestMeetingTime: closestMeetingTime,
             groupId: this.getAttribute("groupId"),
-            memberIds: memberIds
+            memberIds: memberIds,
+            members: participants
         }
 
         this.shadowRoot.querySelector(".wrapper").addEventListener('click', () => this.pressed(data));
@@ -111,7 +113,12 @@ class StudyGroup extends HTMLElement {
                     <h3> ${data.title} </h3> 
                     <div class="context">
                         <p> Location: <b>${data.location} </b></p>
-                        <p> Members: ${data.participants} / ${data.maxParticipants} </p> 
+                        <div>
+                            <div class="member_tooltip"> 
+                                <p class="title"> Members </p>
+                            </div>
+                            <p> Members: ${data.participants} / ${data.maxParticipants} </p>
+                        </div> 
                         <p> ${data.closestMeetingTime} </p>
                         <p> ${data.className} </p>
                         <p> ${data.description} </p>
@@ -122,12 +129,44 @@ class StudyGroup extends HTMLElement {
                         <button id="cancel"> Cancel </button>
                     </div>  
                 `;
+
+                for (let i = 0; i < data.members.length; i++) {
+                    const wrapper = zoomedIn.querySelector(".member_tooltip").appendChild(document.createElement("div"));
+                    wrapper.appendChild(document.createElement("p")).innerText = data.members[i];
+                    
+                    const send = wrapper.appendChild(document.createElement("img"));
+                    send.classList.add("send");
+                    send.src = "./Images/send.png";
+                    send.addEventListener('click', (e) => console.log("send"));
+    
+                    const remove = wrapper.appendChild(document.createElement("img"));
+                    remove.classList.add("remove");
+                    remove.src = "./Images/remove_button.png";
+                    remove.addEventListener('click', async () => {
+                        const response = await StudyGroupDatabase.kickFromStudyGroup(data.groupId, data.memberIds[i])
+                        switch(response) {
+                            case HTTPStatusCodes.OKAY: {
+                                alert(`You have kicked ${data.members[i]} from your Study Group.`);
+                                location.reload();
+                                return;
+                            }
+                            default: {
+                                alert("Something went wrong");
+                                location.reload();
+                                return;
+                            }
+                        }
+                    });
+                }
+
             } else if (user.userame !== data.owner && !data.memberIds.includes(user._id)) {
                 zoomedIn.innerHTML = `
                     <h3> ${data.title} </h3> 
                     <div class="context">
                         <p> Location: <b>${data.location} </b></p>
-                        <p> Members: ${data.participants} / ${data.maxParticipants} </p> 
+                        <div>
+                            <p> Members: ${data.participants} / ${data.maxParticipants} </p>
+                        </div>  
                         <p> ${data.closestMeetingTime} </p>
                         <p> ${data.className} </p>
                         <p> ${data.description} </p>
@@ -143,7 +182,9 @@ class StudyGroup extends HTMLElement {
                     <h3> ${data.title} </h3> 
                     <div class="context">
                         <p> Location: <b>${data.location} </b></p>
-                        <p> Members: ${data.participants} / ${data.maxParticipants} </p> 
+                        <div>
+                            <p> Members: ${data.participants} / ${data.maxParticipants} </p>
+                        </div>  
                         <p> ${data.closestMeetingTime} </p>
                         <p> ${data.className} </p>
                         <p> ${data.description} </p>
@@ -197,7 +238,7 @@ class StudyGroup extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner", "description", "meetingTimes"];
+        return ["title", "members", "maxmembers", "classname", "classnum", "location", "owner", "description", "meetingTimes", "participants"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

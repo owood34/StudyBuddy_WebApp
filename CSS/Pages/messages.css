@@ -30,6 +30,17 @@ input[type="text"] {
     border-right: 1px hsl(84, 41%, 30%) solid;
 }
 
+#insert {
+    position: absolute;
+    right: 25%;
+    top: 4%;
+    cursor: pointer;
+}
+
+#insert:hover {
+    scale: 1.1;
+}
+
 select {
     background-color: transparent;
     width: fit-content;
@@ -187,6 +198,33 @@ img {
     width: 30px !important;
     height: 30px !important;
     aspect-ratio: 1 /1 !important;
+}
+
+.notifications {
+    overflow-y: auto;
+    height: 40vh;
+}
+
+.createNotification {
+    position: absolute;
+    background-color:hsl(230, 25%, 95%);
+    top: 28%;
+    right: 34%;
+    width: 30%;
+}
+
+.createNotification #recievers {
+    margin-left: 30px;
+}   
+
+.createNotification #body {
+    width: 90%;
+    height: 150px;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    margin-left: 20px;
+    border: none;
+    resize: none;
 }
 
 #search {

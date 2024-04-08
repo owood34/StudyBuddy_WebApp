@@ -1,3 +1,5 @@
+import * as NotificationDatabase from '../Database/NotificationDatabase.js';
+
 class NavigationBar extends HTMLElement {
     constructor() {
         super();
@@ -10,19 +12,18 @@ class NavigationBar extends HTMLElement {
         this.render(false);
     }
 
-    render(darkMode) {
+    render() {
+        const notificationAmount = NotificationDatabase.notifications.length || 0;
+        
         const css = document.createElement("link");
         css.rel = "stylesheet";
         css.href = "./CSS/Elements/NavigationBar.css";
-        
-        const notificationAmount = +(this.getAttribute("notification-amount")) || 0;
-        const isDarkMode = darkMode ? "dark" : "";
         const isVisible = notificationAmount === 0 ? "hidden" : "visible";
         const accountSetting = localStorage.getItem("token") !== null ? "./account.html" : "./login.html";
         //const accountSetting = "./login.html";
         
         this.shadowRoot.innerHTML = `
-            <div class="wrapper" id=${isDarkMode}>
+            <div class="wrapper">
                 <a href="./index.html"><h3> Home </h3></a>
                 <a href="./studypage.html"><h3> Find Study Group? </h3></a>
                 <a href="${accountSetting}"> <img src=./Images/default_user.png /></a>
@@ -33,21 +34,21 @@ class NavigationBar extends HTMLElement {
             </div>
         `;
 
-
-
         this.shadowRoot.appendChild(css);
+
+        setInterval(async () => {
+            const notifications = await NotificationDatabase.getAllNotifications();
+            const previousLength = NotificationDatabase.notifications.length;
+            NotificationDatabase.notifications.length = 0;
+            NotificationDatabase.notifications.push(...notifications);
+            if (previousLength !== NotificationDatabase.notifications.length) {
+                this.render();
+            }
+        }, 10000);
     }
 
     static get observedAttributes() {
         return ["notification-amount", "darkMode"];
-    }
-
-    /**
-     * @param {boolean} val
-     * Renders Dark Mode
-     */
-    set isDarkMode(val) {
-        this.render(val);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

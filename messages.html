@@ -5,14 +5,14 @@
         <title> Study Buddy </title>
         <link rel="stylesheet" href="./CSS/Pages/messages.css">
         <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
-        <script src="./JS/Elements/NavigationBar.js"></script>
+        <script type="module" src="./JS/Elements/NavigationBar.js"></script>
         <script src="./JS/Elements/CustomFriend.js"></script>
         <script src="./JS/Elements/Notification.js"></script>
         <script src="./JS/Elements/CustomFooter.js"></script>
         <script src="./JS/commands.js"></script>
     </head>
     <body>
-        <navigation-bar notification-amount="3"></navigation-bar>
+        <navigation-bar></navigation-bar>
         <div class="screen">
             <div id="friendList">
                 <h3> Friend List </h3>
@@ -21,11 +21,10 @@
                 <friend-list name="Test 2" inSession="session"></friend-list>
                 <friend-list></friend-list>
             </div>
-            <div id="notifications"> 
+            <div id="notification"> 
                 <h3> Notifications </h3>
-                <custom-notification></custom-notification>
-                <custom-notification title="Delayed Study Group"></custom-notification>
-                <custom-notification title="Joined Study Group" sender="Owen Wood"></custom-notification>
+                <img src="./Images/add_button.png" id="insert"/>
+                <div class="notifications"></div>
             </div>
             <div class="studyGroups">
                 <h3> Joined Study Groups </h3>
