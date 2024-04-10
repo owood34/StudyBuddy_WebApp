@@ -121,13 +121,15 @@ async function createNotification() {
         </div>
     `;
 
-    possibleRecievers.forEach((r) => {
+    const setRecievers = possibleRecievers.filter((val, index) => possibleRecievers.findIndex((v, i) => v.id === val.id && index !== i));
+
+    console.log(setRecievers, possibleRecievers);
+
+    setRecievers.forEach((r) => {
         const reciever = notificationBuilder.querySelector("#recievers").appendChild(document.createElement("option"));
         reciever.value = r.id;
         reciever.innerText = r.name;
     });
-
-    console.log(possibleRecievers);
     
     notificationForm.reciever = possibleRecievers[0]?.id;
 
