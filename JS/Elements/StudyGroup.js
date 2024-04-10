@@ -165,6 +165,9 @@ class StudyGroup extends HTMLElement {
                     <div class="context">
                         <p> Location: <b>${data.location} </b></p>
                         <div>
+                            <div class="member_tooltip"> 
+                                <p class="title"> Members </p>
+                            </div>
                             <p> Members: ${data.participants} / ${data.maxParticipants} </p>
                         </div>  
                         <p> ${data.closestMeetingTime} </p>
@@ -177,12 +180,20 @@ class StudyGroup extends HTMLElement {
                         <button id="cancel"> Cancel </button>
                     </div>  
                 `;
+
+                for (let i = 0; i < data.members.length; i++) {
+                    const wrapper = zoomedIn.querySelector(".member_tooltip").appendChild(document.createElement("div"));
+                    wrapper.appendChild(document.createElement("p")).innerText = data.members[i];
+                }
             } else if (user.userame !== data.owner && data.memberIds.includes(user._id)) {
                 zoomedIn.innerHTML = `
                     <h3> ${data.title} </h3> 
                     <div class="context">
                         <p> Location: <b>${data.location} </b></p>
                         <div>
+                            <div class="member_tooltip"> 
+                                <p class="title"> Members </p>
+                            </div>
                             <p> Members: ${data.participants} / ${data.maxParticipants} </p>
                         </div>  
                         <p> ${data.closestMeetingTime} </p>
@@ -195,6 +206,11 @@ class StudyGroup extends HTMLElement {
                         <button id="cancel"> Cancel </button>
                     </div>  
                 `;
+
+                for (let i = 0; i < data.members.length; i++) {
+                    const wrapper = zoomedIn.querySelector(".member_tooltip").appendChild(document.createElement("div"));
+                    wrapper.appendChild(document.createElement("p")).innerText = data.members[i];
+                }
             }
             zoomedIn.querySelector("#cancel").addEventListener("click", () => this.pressed(undefined));
             zoomedIn.querySelector("#join")?.addEventListener("click", async () => {
