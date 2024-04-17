@@ -25,8 +25,8 @@ class CustomExpandedFriend extends HTMLElement {
                 <p class="name"> ${name} </p>
                 <div id=controls> 
                     <img id="send" src="./Images/send.png" />
-                    <p class="sendBox"> Send Notification to ${name} </p>
                     <img id="delete" src="./Images/delete.png" />
+                    <p class="sendBox"> Send Notification to ${name} </p>
                     <p class="deleteBox"> Remove ${name} from Friend List </p> 
                 </div>
             </div>

@@ -4,6 +4,13 @@ body {
     justify-content: space-between;
 }
 
+#canvas_container {
+    display: block;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 h1 {
     text-align: center;
 }

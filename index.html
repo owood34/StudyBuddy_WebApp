@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html class="home_page">
     <head>
         <meta charset="utf-8">
         <title> Study Buddy </title>
         <link rel="stylesheet" href="./CSS/Pages/index.css">
         <link rel="stylesheet" href="./CSS/Theme/lighttheme.css">
+        <link rel="stylesheet" href="./CSS/Pages/animate.css">
         <script type="module" src="./JS/Elements/NavigationBar.js"></script>
         <script src="./JS/Elements/CustomFooter.js"></script>
         <script src="./JS/commands.js"></script>
@@ -12,7 +13,9 @@
     <body>
         <navigation-bar></navigation-bar>
         <h1> Welcome to StudyBuddy! </h1>
-        <canvas id="canvas"></canvas>
+        <div id="canvas_container">
+            <canvas id="canvas"></canvas>
+        </div>
         <custom-footer></custom-footer>
         <script type="module" src="./JS/Pages/index.js"></script>
     </body>

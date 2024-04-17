@@ -21,6 +21,10 @@ h3 {
     border-bottom: 3px solid #DEE2FC;
 }
 
+friend-list {
+    animation: down 0.5s linear 1 forwards;
+}
+
 input[type="text"] {
     width: 10vw;
     height: 20px;
@@ -80,6 +84,7 @@ select {
     text-align: center;
     width: 50% !important;
     margin: auto;
+    animation: down 0.5s linear 1 forwards;
 }
 
 .groups *:not(:first-child) {
@@ -240,4 +245,19 @@ body::after {
     content: '';
     display: block;
     height: 20vh;
+}
+
+@keyframes down {
+    from { 
+        transform: translateY(-30%); 
+        opacity: 0.1; 
+    }
+    75% {
+        transform: translateY(-10%);
+        opacity: 0.4;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1; 
+    }
 }

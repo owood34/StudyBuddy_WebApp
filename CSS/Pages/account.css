@@ -6,8 +6,14 @@
     background-color: hsl(230, 25%, 63%);
     text-align: center;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: all 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     right: 8px;
+}
+
+.tab {
+    position: absolute;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 #hamburger {
@@ -31,6 +37,7 @@ button:hover {
 .active {
     text-decoration: underline !important;
     scale: 1.1 !important;
+    transition: all 1s ease-in-out;
 }
 
 .main {

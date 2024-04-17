@@ -7,4 +7,5 @@
     box-shadow: 5px 5px 5px lightgray;
     margin: 0 0 20px 0;
     padding: 10px;
+    transition: padding 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }

@@ -27,8 +27,10 @@ img {
 }
 
 #controls {
-    position: absolute;
-    left: 50vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    z-index: 30;
 }
 
 #controls img#send:hover ~ .sendBox {
@@ -40,11 +42,8 @@ img {
 }
 
 #controls p {
-    position: absolute;
     background-color: hsl(84, 41%, 95%);
     display: none;
-    text-align: center;
-    top: -150%;   
 }
 
 #controls img {

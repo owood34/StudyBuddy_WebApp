@@ -1,9 +1,9 @@
 import { POINT, PARTICLE, VECTOR } from '../Elements/CanvasElements.js';
 
 const canvas = document.getElementById("canvas");
-
-canvas.width = document.body.clientWidth;
-canvas.height = document.body.clientHeight - 100;
+const container = canvas.parentElement;
+canvas.width = container.scrollWidth;
+canvas.height = container.scrollWidth / 2;
 
 const particles = [];
 const ctx = canvas.getContext("2d");
@@ -28,7 +28,7 @@ function draw() {
             ctx.arc(p1.getPoint().getX(), p1.getPoint().getY(), p1.getWeight(), 0, Math.PI * 2);
             particles.forEach((p2, j) => {
                 if (i !== j) {
-                    if (distance(p1.getPoint(), p2.getPoint()) < 300) {
+                    if (distance(p1.getPoint(), p2.getPoint()) < 150) {
                         ctx.moveTo(p1.getPoint().getX(), p1.getPoint().getY());
                         ctx.lineTo(p2.getPoint().getX(), p2.getPoint().getY());
                         ctx.stroke();
@@ -47,7 +47,10 @@ function draw() {
 }
 
 canvas.addEventListener('click', (e) => {
-    particles.push(new PARTICLE(new POINT(e.offsetX, e.offsetY), new VECTOR(Math.random() + 0.5, Math.random() * 360), (Math.random() * 6) + 10));
+    let x = (e.clientX - canvas.offsetLeft);
+    let y = (e.clientY - canvas.offsetTop);
+
+    particles.push(new PARTICLE(new POINT(x, y), new VECTOR(Math.random() + 0.2, Math.random() * 360) , (Math.random() * 6) + 10));
 });
 
 function distance(p1, p2) {
