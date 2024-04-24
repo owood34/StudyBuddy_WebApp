@@ -46,14 +46,10 @@ button:hover {
 
 .content {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     gap: 50px 100px;
     width: 50%;
     margin: 0 0 0 30px;
-}
-
-.content .form-group {
-    width: 200px;
 }
 
 .switch {
@@ -112,23 +108,24 @@ input:checked + .slider:before {
 .form-group {
     font-size: 16px;
     height: 75px;
+    width: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
 }
 
-.form-group img {
-    position: relative;
-    top: 3.5em;
-    left: -6.5em;
+.controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.form-group img:hover {
-    cursor: pointer;
-}
-
-.form-group button#save {
+.controls button#save {
     background-color: green;
 }
 
-.form-group button#cancel {
+.controls button#cancel {
     background-color: red;
 }
 

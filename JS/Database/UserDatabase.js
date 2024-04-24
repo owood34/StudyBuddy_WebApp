@@ -78,14 +78,24 @@ async function userVerification(token) {
 /** 
  * Updates an existing User inside the Database.
  * @param { Object } user 
- * @returns { Object } { status code, user / undefined }
+ * @returns { Object } Updated User
  * */
 
 async function updateUser(user) {
+    if (localStorage.getItem("token") === undefined || 
+        localStorage.getItem("token") === null) {
+            return 404;
+    }
+
+    const token = localStorage.getItem("token");
+
     const options = {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user)
+            body: JSON.stringify(user),
+            headers: { 
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+             }
         }
 
         const response = await fetch(`${url}/${header}`, options);
@@ -170,6 +180,43 @@ async function deleteAllUsers() {
     return body;
 }
 
+/**
+ * Tries to login the User with a valid email and password
+ * @param { Boolean } isCreated - Determines when the user posts to instagram (Creation or Joining)
+ * @param { String } name - Name of the StudyGroup
+ * @returns { Object } {user, token}
+*/
+async function postInstagram(isCreated, name) {
+    if (localStorage.getItem("token") === undefined || 
+        localStorage.getItem("token") === null ||
+        localStorage.getItem("user") === undefined || 
+        localStorage.getItem("user") === null) {
+            return 404;
+    }
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    
 
-export { createUser, deleteAllUsers, deleteUser, updateUser, userVerification, getActiveUser, logoutUser, loginUser, getUsername }
+    const options = {
+        method: "POST",
+        headers: { 
+            "Authorization": `Bearer ${localStorage.getItem("token")}` 
+        }
+    }
+    const response = await fetch(`${url}/${header}/instagram?isCreated=${isCreated}&group=${name}`, options);
+
+    return response;
+}
+
+export { 
+    createUser, 
+    deleteAllUsers, 
+    deleteUser, 
+    updateUser, 
+    userVerification, 
+    getActiveUser, 
+    logoutUser, 
+    loginUser, 
+    getUsername,
+    postInstagram 
+}

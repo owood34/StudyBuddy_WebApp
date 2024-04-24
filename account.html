@@ -25,50 +25,55 @@
                 <h1> Appearance Settings </h1> <br>
                 <div class="content">
                     <div class="form-group">
-                        <p id="themeName"> Current Theme: Light Theme </p>
-                        <label class="switch">
-                            <input type="checkbox" id="theme">
-                            <span class="slider"> </span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="firstName"> First Name 
+                        <label for="firstName"> First Name 
                             <input type="text" class="firstName" placeholder="John">
                         </label>
                     </div>
-
                     <div class="form-group">
-                        <label class="profile"> Profile Picture
+                        <label for="profile"> Profile Picture
                             <input type="file" class="profile" accept="image/*">
                             <img src="./Images/default_user.png">
                         </label>
                     </div>
-
                     <div class="form-group">
-                        <label class="lastName"> Last Name 
+                        <label for="lastName"> Last Name 
                             <input type="text" class="lastName" placeholder="Doe">
                         </label>
                     </div>
-
                     <div class="form-group">
-                        <label class="email"> Email
+                        <label for="email"> Email
                             <input type="email" 
                                 class="email" 
                                 pattern="/^[a-zA-Z0-9. _-]+@[a-zA-Z0-9. -]+\. [a-zA-Z]{2,4}$/"
                                 placeholder="abc@gmail.com">
                         </label>
                     </div>
-
                     <div class="form-group">
-                        <label class="password"> Password
+                        <label for="password"> Password
                             <input type="password" class="password"> <!-- window.prompt(password!)-->
                         </label>
                     </div>
                     <div class="form-group">
+                        <label for="school"> School
+                            <input type="text" class="school" placeholder="Bridgewater College">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="igusername"> Instagram Username
+                            <input type="text" class="igusername">
+                        </label>    
+                    </div>
+                    <div class="form-group">
+                        <label for="igpassword"> Instagram Password
+                            <input type="text" class="igpassword">
+                        </label>    
+                    </div>
+                    <div class="form-group"></div>
+                    <div class="form-group"></div>
+                    <div class="controls">
                         <button id="save"> Save </button>
                         <button id="cancel"> Cancel </button>
                     </div>
-                    
                 </div>
             </div>
             <div class="tab" id="friendList">

@@ -4,7 +4,6 @@ const header = "notification";
 
 let notifications = [];
 notifications = await getAllNotifications();
-console.log(notifications);
 
 /** 
  * Creates a Notification inside the Database.

@@ -395,7 +395,8 @@ async function create() {
     const response = await StudyGroupDatabase.createStudyGroup(formData);
     if (response.okay) {
         alert("Successfully Created Your Study Group!");
-        location.reload();
+        close();
+        createInstagramPopUp(true, formData.name);
         return;
     }
 
@@ -502,4 +503,52 @@ async function searchGroups() {
         element.setAttribute("ownerId", response[i].owner);
         element.setAttribute("owner", owner.name);
     }
+}
+
+function createInstagramPopUp(isCreated, name) {
+    const ig = {
+        username: JSON.parse(localStorage.getItem("user"))?.ig?.username,
+        password: JSON.parse(localStorage.getItem("user"))?.ig?.password
+    }
+    const wrapper = document.body.appendChild(document.createElement("div"));
+    wrapper.classList.add("instagram_popup");
+    wrapper.innerHTML = `
+        <label for="username"> Instagram Username </label>
+        <input type="text" class="username" value=${ig.username}>
+
+
+        <label for="password"> Instagram Password </label>
+        <input type="password" class="password" value=${ig.password}>
+
+        <div>
+            <button class="post"> Post </button>
+            <button class="cancel"> Cancel </button>
+        </div>
+    `;
+
+    wrapper.querySelector(".cancel").addEventListener("click", () => location.reload());
+    wrapper.querySelector(".post").addEventListener("click", async () => {
+        if (ig.username === undefined || ig.password === undefined) {
+            alert("Cannot find Instagram Username or Password!")
+            return;
+        }
+
+        const igUsername = new String(document.querySelector(".username").value);
+        const igPassword = new String(document.querySelector(".password").value);
+
+        ig.username = igUsername.replace(" ", "").length === 0 ? ig.username : document.querySelector(".username").value;
+        ig.password = igPassword.replace(" ", "").length === 0 ? ig.password : document.querySelector(".password").value;
+
+        const response = await UserDatabase.updateUser({ ig: ig });
+        if (response) {
+            const postResponse = await UserDatabase.postInstagram(isCreated, name);
+            if (postResponse.ok) { 
+                alert("Instagram Post Created!");
+                location.reload();
+                return;
+            }
+            alert("Something went Wrong!");
+            return;
+        }
+    });
 }

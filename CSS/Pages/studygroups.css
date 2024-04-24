@@ -423,6 +423,38 @@ input[type="text"] {
     left: 92%;
 }
 
+.instagram_popup {
+    position: absolute;
+    top: 15%;
+    left: 45.5%;
+    background-color: hsl(84, 41%, 90%);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    border: 1px #525B88 solid;
+    padding: 10px;
+}
+
+.instagram_popup button {
+    border: none;
+    color:hsl(84, 41%, 90%);
+    height: 25px;
+    cursor: pointer;
+}
+
+.instagram_popup button:hover {
+    scale: 1.1;
+}
+
+.instagram_popup .post {
+    background-color: green;
+}
+
+.instagram_popup .cancel {
+    background-color: red;
+}
+
 body::after {
     content: '';
     display: block;
