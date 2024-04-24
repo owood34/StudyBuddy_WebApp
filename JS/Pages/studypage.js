@@ -528,16 +528,16 @@ function createInstagramPopUp(isCreated, name) {
 
     wrapper.querySelector(".cancel").addEventListener("click", () => location.reload());
     wrapper.querySelector(".post").addEventListener("click", async () => {
-        if (ig.username === undefined || ig.password === undefined) {
-            alert("Cannot find Instagram Username or Password!")
-            return;
-        }
-
         const igUsername = new String(document.querySelector(".username").value);
         const igPassword = new String(document.querySelector(".password").value);
 
         ig.username = igUsername.replace(" ", "").length === 0 ? ig.username : document.querySelector(".username").value;
         ig.password = igPassword.replace(" ", "").length === 0 ? ig.password : document.querySelector(".password").value;
+
+        if (ig.username === undefined || ig.password === undefined) {
+            alert("Cannot find Instagram Username or Password!")
+            return;
+        }
 
         const response = await UserDatabase.updateUser({ ig: ig });
         if (response) {
