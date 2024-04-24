@@ -297,8 +297,12 @@ function createInstagramPopUp(name, isCreated = false) {
         const igUsername = new String(document.querySelector(".username").value);
         const igPassword = new String(document.querySelector(".password").value);
 
+        console.log(igUsername, igPassword);
+
         ig.username = igUsername.replace(" ", "").length === 0 ? ig.username : document.querySelector(".username").value;
         ig.password = igPassword.replace(" ", "").length === 0 ? ig.password : document.querySelector(".password").value;
+
+        console.log(ig);
 
         const response = await UserDatabase.updateUser({ ig: ig });
         if (response) {
